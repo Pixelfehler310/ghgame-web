@@ -4,12 +4,30 @@ import { FormsModule } from '@angular/forms';
 import { PanelModule } from 'primeng/panel';
 import { CardModule } from 'primeng/card';
 import { GameService } from '../../services/game.service';
-import { GameConfig, GameState, InventoryItemDef } from '../../models/game.models';
+import {
+  DialogChunk,
+  GameConfig,
+  GameState,
+  InventoryItemDef,
+  QuestionInput,
+} from '../../models/game.models';
+import { SpeechBubbleComponent } from './components/speech-bubble.component';
+import { ItemHeroComponent } from './components/item-hero.component';
+import { StageFormComponent } from './components/stage-form.component';
 
 @Component({
   selector: 'app-game',
   standalone: true,
-  imports: [CommonModule, FormsModule, NgIf, PanelModule, CardModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    NgIf,
+    PanelModule,
+    CardModule,
+    SpeechBubbleComponent,
+    ItemHeroComponent,
+    StageFormComponent,
+  ],
   template: `
     <section class="game p-fluid">
       <div class="grid gap-3 align-items-start justify-content-center">
@@ -28,34 +46,37 @@ import { GameConfig, GameState, InventoryItemDef } from '../../models/game.model
           </p-panel>
         </div>
 
-        <!-- Desktop: NPC left, Main content right -->
-        <div class="col-12 lg:col-3">
-          <p-card header="NPC Panel">
-            <div class="text-500">NpcPanel placeholder (avatar, name, mood)</div>
-          </p-card>
-        </div>
-
-        <div class="col-12 lg:col-9">
+        <!-- Main content: ItemHero, SpeechBubble (with NPC avatar), StageForm -->
+        <div class="col-12 lg:col-12">
           <div class="grid">
             <div class="col-12">
               <p-card header="Item Hero">
-                <div class="text-500">ItemHero placeholder (item image + name)</div>
+                <ghg-item-hero [imageUrl]="itemImageUrl" [name]="itemName"></ghg-item-hero>
               </p-card>
             </div>
             <div class="col-12">
               <p-card header="Speech Bubble">
-                <div class="text-500" style="min-height: 200px">
-                  SpeechBubble placeholder (scrollable story/dialog)
-                </div>
+                <ghg-speech-bubble
+                  [avatarUrl]="npcAvatarUrl"
+                  [messages]="dialogMessages"
+                ></ghg-speech-bubble>
               </p-card>
             </div>
             <div class="col-12">
               <p-card header="Stage Form">
-                <div class="text-500">StageForm placeholder (answer input + upload trigger)</div>
+                <ghg-stage-form
+                  [inputSchema]="formSchema"
+                  [uploadRequired]="true"
+                  [uploaded]="hasUpload"
+                  (submit)="handleSubmit($event)"
+                  (openUpload)="handleOpenUpload()"
+                ></ghg-stage-form>
               </p-card>
             </div>
           </div>
         </div>
+
+        <!-- No separate NPC panel: avatar lives inside SpeechBubble -->
 
         <div class="col-12">
           <div class="hotbar shadow-2 border-round p-2 flex justify-content-center gap-2">
@@ -95,6 +116,15 @@ export class GameComponent implements OnInit, OnDestroy {
   config: GameConfig = { totalStages: 24, deadlineISO: '2025-09-30T21:59:59.000Z', hotbarSlots: 9 };
   countdown = '00:00:00:00'; // dd:hh:mm:ss
   private countdownTimer: any;
+  npcAvatarUrl = 'img/plushie_neutral.PNG';
+  dialogMessages: DialogChunk[] = [
+    { id: 'm1', text: 'Willkommen im Abenteuer!', mood: 'happy' },
+    { id: 'm2', text: 'Löse die Aufgabe und lade ein Bild hoch.' },
+  ];
+  itemImageUrl = 'img/plushie_neutral.PNG';
+  itemName = 'Beispiel-Item';
+  formSchema: QuestionInput = { kind: 'text', placeholder: 'Deine Antwort...' } as any;
+  hasUpload = false;
 
   handleLoad(id: string) {
     if (!id) return;
@@ -152,5 +182,15 @@ export class GameComponent implements OnInit, OnDestroy {
     };
     update();
     this.countdownTimer = setInterval(update, 1000);
+  }
+
+  // Stage form handlers (placeholders)
+  handleSubmit(answer: any) {
+    // Placeholder: mark upload required gating not satisfied -> just log
+    console.log('submit answer', answer);
+  }
+  handleOpenUpload() {
+    // Placeholder: would open upload modal in future
+    console.log('open upload');
   }
 }

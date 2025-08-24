@@ -39,7 +39,9 @@ import { DialogChunk } from '../../../models/game.models';
         overflow: auto;
         width: 100%;
       }
-      .message + .message { margin-top: 0.75rem; }
+      .message + .message {
+        margin-top: 0.75rem;
+      }
     `,
   ],
 })
@@ -61,6 +63,7 @@ export class SpeechBubbleComponent implements AfterViewInit, OnChanges {
     }
   }
 
+  // TODO Next and prev mode without scrolling, space or tap to advance the text like a real game.
   private scrollToBottom() {
     if (!this.autoScroll) return;
     const el = this.bubbleRef?.nativeElement;
