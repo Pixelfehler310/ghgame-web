@@ -1,0 +1,14 @@
+node_modules
+npm-debug.log*
+dist
+out-*
+.git
+.gitignore
+.vscode
+.DS_Store
+Thumbs.db
+Dockerfile*
+docker-compose*
+.angular
+.idea
+*.log

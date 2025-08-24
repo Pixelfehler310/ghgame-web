@@ -1,0 +1,24 @@
+version: '3.9'
+services:
+  web-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - .:/workspace
+      - /workspace/node_modules
+    ports:
+      - '4200:4200'
+    environment:
+      - NG_CLI_ANALYTICS=false
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
+    command: ['npm', 'start', '--', '--host', '0.0.0.0', '--port', '4200']
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '8080:80'
+    depends_on: []
