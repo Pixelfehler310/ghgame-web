@@ -1,8 +1,6 @@
 import { Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
 import { CommonModule, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { PanelModule } from 'primeng/panel';
-import { CardModule } from 'primeng/card';
 import { GameService } from '../../services/game.service';
 import {
   DialogChunk,
@@ -14,6 +12,7 @@ import {
 import { SpeechBubbleComponent } from './components/speech-bubble.component';
 import { ItemHeroComponent } from './components/item-hero.component';
 import { StageFormComponent } from './components/stage-form.component';
+import { UploadModalComponent } from './components/upload-modal.component';
 
 @Component({
   selector: 'app-game',
@@ -22,77 +21,74 @@ import { StageFormComponent } from './components/stage-form.component';
     CommonModule,
     FormsModule,
     NgIf,
-    PanelModule,
-    CardModule,
     SpeechBubbleComponent,
     ItemHeroComponent,
     StageFormComponent,
+    UploadModalComponent,
   ],
   template: `
     <section class="game p-fluid">
-      <div class="grid gap-3 align-items-start justify-content-center">
-        <div class="col-12">
-          <p-panel header="GHG Adventure" [toggleable]="false">
-            <div class="flex align-items-center justify-content-between flex-wrap gap-3">
-              <div class="flex align-items-center gap-2">
-                <span class="text-500">Stage</span>
-                <strong>{{ state?.currentStageIndex || 1 }}/{{ config.totalStages }}</strong>
-              </div>
-              <div class="text-right">
-                <span class="text-500 mr-2">Countdown</span>
-                <strong aria-live="polite">{{ countdown }}</strong>
-              </div>
-            </div>
-          </p-panel>
-        </div>
-
-        <!-- Main content: ItemHero, SpeechBubble (with NPC avatar), StageForm -->
-        <div class="col-12 lg:col-12">
-          <div class="grid">
-            <div class="col-12">
-              <p-card header="Item Hero">
-                <ghg-item-hero [imageUrl]="itemImageUrl" [name]="itemName"></ghg-item-hero>
-              </p-card>
-            </div>
-            <div class="col-12">
-              <p-card header="Speech Bubble">
-                <ghg-speech-bubble
-                  [avatarUrl]="npcAvatarUrl"
-                  [messages]="dialogMessages"
-                ></ghg-speech-bubble>
-              </p-card>
-            </div>
-            <div class="col-12">
-              <p-card header="Stage Form">
-                <ghg-stage-form
-                  [inputSchema]="formSchema"
-                  [uploadRequired]="true"
-                  [uploaded]="hasUpload"
-                  (submit)="handleSubmit($event)"
-                  (openUpload)="handleOpenUpload()"
-                ></ghg-stage-form>
-              </p-card>
-            </div>
+      <div class="container">
+        <div class="topbar flex align-items-center justify-content-between gap-3">
+          <div class="flex align-items-center gap-2">
+            <strong>{{ state?.currentStageIndex || 1 }}/{{ config.totalStages }}</strong>
+          </div>
+          <div class="text-right">
+            <strong aria-live="polite">{{ countdown }}</strong>
           </div>
         </div>
 
-        <!-- No separate NPC panel: avatar lives inside SpeechBubble -->
+        <div class="stack">
+          <ghg-item-hero [imageUrl]="itemImageUrl" [name]="itemName"></ghg-item-hero>
 
-        <div class="col-12">
-          <div class="hotbar shadow-2 border-round p-2 flex justify-content-center gap-2">
-            <ng-container *ngFor="let slot of visibleHotbar; let i = index">
-              <div class="slot border-round" [attr.aria-label]="'Slot ' + (i + 1)">
-                <span *ngIf="slot.type === 'item'">{{ slot.item?.name || 'Item' }}</span>
-                <span *ngIf="slot.type === 'more'">+{{ slot.more }}</span>
-              </div>
-            </ng-container>
-          </div>
+          <ghg-speech-bubble
+            [avatarUrl]="npcAvatarUrl"
+            [messages]="dialogMessages"
+          ></ghg-speech-bubble>
+
+          <ghg-stage-form
+            [inputSchema]="formSchema"
+            [uploadRequired]="true"
+            [uploaded]="hasUpload"
+            (submit)="handleSubmit($event)"
+            (openUpload)="handleOpenUpload()"
+          ></ghg-stage-form>
         </div>
+
+        <div class="hotbar shadow-2 border-round p-2 flex justify-content-center gap-2 mt-4">
+          <ng-container *ngFor="let slot of visibleHotbar; let i = index">
+            <div class="slot border-round" [attr.aria-label]="'Slot ' + (i + 1)">
+              <span *ngIf="slot.type === 'item'">{{ slot.item?.name || 'Item' }}</span>
+              <span *ngIf="slot.type === 'more'">+{{ slot.more }}</span>
+            </div>
+          </ng-container>
+        </div>
+
+        <ghg-upload-modal
+          *ngIf="showUpload"
+          [accept]="['image/png', 'image/jpeg']"
+          [maxSizeMB]="5"
+          (save)="handleUploadSaved($event)"
+          (cancel)="showUpload = false"
+        ></ghg-upload-modal>
       </div>
     </section>
   `,
   styles: [
     `
+      .container {
+        max-width: 1040px;
+        margin: 0 auto;
+        padding: 1rem;
+      }
+      .topbar {
+        opacity: 0.9;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+      }
+      .stack > * + * {
+        margin-top: 1rem;
+      }
       .hotbar {
         position: relative;
       }
@@ -125,6 +121,7 @@ export class GameComponent implements OnInit, OnDestroy {
   itemName = 'Beispiel-Item';
   formSchema: QuestionInput = { kind: 'text', placeholder: 'Deine Antwort...' } as any;
   hasUpload = false;
+  showUpload = false;
 
   handleLoad(id: string) {
     if (!id) return;
@@ -191,6 +188,12 @@ export class GameComponent implements OnInit, OnDestroy {
   }
   handleOpenUpload() {
     // Placeholder: would open upload modal in future
-    console.log('open upload');
+    this.showUpload = true;
+  }
+  handleUploadSaved(file: File) {
+    // Later: upload to backend and store thumbnail in progress
+    console.log('upload saved', file?.name);
+    this.hasUpload = true;
+    this.showUpload = false;
   }
 }

@@ -13,7 +13,6 @@ import { QuestionInput } from '../../../models/game.models';
       <ng-container [ngSwitch]="inputSchema?.kind">
         <!-- Text -->
         <div *ngSwitchCase="'text'" class="field">
-          <label class="block mb-1">Antwort</label>
           <input
             type="text"
             class="p-inputtext p-component w-full"
@@ -22,13 +21,13 @@ import { QuestionInput } from '../../../models/game.models';
             [placeholder]="$any(inputSchema)?.placeholder || 'Antwort eingeben'"
             [attr.minlength]="$any(inputSchema)?.minLength || null"
             [attr.maxlength]="$any(inputSchema)?.maxLength || null"
+            aria-label="Textantwort"
             required
           />
         </div>
 
         <!-- Number -->
         <div *ngSwitchCase="'number'" class="field">
-          <label class="block mb-1">Zahl</label>
           <input
             type="number"
             class="p-inputtext p-component w-full"
@@ -37,18 +36,19 @@ import { QuestionInput } from '../../../models/game.models';
             [attr.min]="$any(inputSchema)?.min ?? null"
             [attr.max]="$any(inputSchema)?.max ?? null"
             [attr.step]="$any(inputSchema)?.step ?? null"
+            aria-label="Zahl"
             required
           />
         </div>
 
         <!-- Choice (single) -->
         <div *ngSwitchCase="'choice'" class="field">
-          <label class="block mb-1">Auswahl</label>
           <select
             class="p-inputtext p-component w-full"
             [(ngModel)]="model"
             name="answerChoice"
             [multiple]="$any(inputSchema)?.multiple"
+            aria-label="Auswahl"
           >
             <option *ngFor="let opt of $any(inputSchema)?.options || []" [ngValue]="opt.value">
               {{ opt.label }}
@@ -58,7 +58,6 @@ import { QuestionInput } from '../../../models/game.models';
 
         <!-- Boolean -->
         <div *ngSwitchCase="'boolean'" class="field">
-          <label class="block mb-1">Wahr/Falsch</label>
           <div class="flex align-items-center gap-3">
             <label class="flex align-items-center gap-2"
               ><input type="radio" name="answerBool" [value]="true" [(ngModel)]="model" />

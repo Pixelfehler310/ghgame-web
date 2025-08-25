@@ -15,13 +15,13 @@ import { DialogChunk } from '../../../models/game.models';
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div class="flex align-items-start gap-3">
+    <div class="flex align-items-start gap-3 w-full">
       <img
         *ngIf="avatarUrl"
         [src]="avatarUrl"
         alt="NPC avatar"
         class="border-round"
-        style="width:56px;height:56px;object-fit:cover"
+        style="width:64px;height:64px;object-fit:cover"
       />
       <div class="bubble p-3 border-round" #bubble>
         <div class="message" *ngFor="let m of messages">
@@ -35,12 +35,14 @@ import { DialogChunk } from '../../../models/game.models';
       .bubble {
         background: var(--surface-50, #1a1f29);
         color: var(--text-color, #e6e6e6);
-        max-height: 40vh;
+        max-height: 60vh;
         overflow: auto;
         width: 100%;
+        font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+        line-height: 1.7;
       }
       .message + .message {
-        margin-top: 0.75rem;
+        margin-top: 0.9rem;
       }
     `,
   ],

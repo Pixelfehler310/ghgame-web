@@ -19,7 +19,7 @@ import { CommonModule } from '@angular/common';
         text-align: center;
       }
       .image {
-        width: min(70vw, 420px);
+        width: min(62vw, 360px);
         aspect-ratio: 1 / 1;
         margin: 0 auto 0.75rem;
         background: var(--surface-50, #1a1f29);
@@ -28,14 +28,15 @@ import { CommonModule } from '@angular/common';
         justify-content: center;
       }
       img {
-        width: 90%;
-        height: 90%;
+        width: 88%;
+        height: 88%;
         object-fit: contain;
         display: block;
       }
       .title {
         margin: 0;
         font-weight: 700;
+        font-size: 1rem;
       }
     `,
   ],
