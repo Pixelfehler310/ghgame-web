@@ -9,6 +9,8 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { SelectModule } from 'primeng/select';
 
 @Component({
   selector: 'ghg-stage-form',
@@ -23,6 +25,8 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
     InputTextModule,
     InputGroupModule,
     InputGroupAddonModule,
+    SelectModule,
+    MultiSelectModule,
   ],
   template: `
     <form #f="ngForm" (ngSubmit)="onSubmit(f)" class="p-fluid form-shell">
@@ -49,7 +53,35 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
               aria-label="Textantwort"
               required
               [ngClass]="{ 'p-invalid': isControlInvalid(f, 'answerText') }"
+              style="width:100%; flex:1 1 0; min-width:0;"
             />
+            <!-- Upload addon with clear state & tooltip -->
+            <p-inputgroup-addon>
+              <button
+                type="button"
+                pButton
+                [icon]="uploaded ? 'pi pi-check-circle' : 'pi pi-image'"
+                class="p-button-icon-only"
+                [ngClass]="
+                  uploadRequired
+                    ? uploaded
+                      ? 'p-button-success'
+                      : 'p-button-warning p-button-outlined'
+                    : 'p-button-secondary p-button-outlined'
+                "
+                [pTooltip]="
+                  uploaded
+                    ? 'Bild bereits hochgeladen — tip top'
+                    : uploadRequired
+                    ? 'Bild hier hochladen — zwingend erforderlich'
+                    : 'Bild optional hochladen'
+                "
+                tooltipPosition="top"
+                appendTo="body"
+                (click)="openUpload.emit()"
+                aria-label="Bild hochladen"
+              ></button>
+            </p-inputgroup-addon>
             <p-inputgroup-addon>
               <span
                 class="tooltip-wrapper"
@@ -86,7 +118,34 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
               aria-label="Zahl"
               required
               [ngClass]="{ 'p-invalid': isControlInvalid(f, 'answerNumber') }"
+              style="width:100%; flex:1 1 0; min-width:0;"
             />
+            <p-inputgroup-addon>
+              <button
+                type="button"
+                pButton
+                [icon]="uploaded ? 'pi pi-check-circle' : 'pi pi-image'"
+                class="p-button-icon-only"
+                [ngClass]="
+                  uploadRequired
+                    ? uploaded
+                      ? 'p-button-success'
+                      : 'p-button-warning p-button-outlined'
+                    : 'p-button-secondary p-button-outlined'
+                "
+                [pTooltip]="
+                  uploaded
+                    ? 'Bild bereits hochgeladen — tip top'
+                    : uploadRequired
+                    ? 'Bild hier hochladen — zwingend erforderlich'
+                    : 'Bild optional hochladen'
+                "
+                tooltipPosition="top"
+                appendTo="body"
+                (click)="openUpload.emit()"
+                aria-label="Bild hochladen"
+              ></button>
+            </p-inputgroup-addon>
             <p-inputgroup-addon>
               <span
                 class="tooltip-wrapper"
@@ -112,19 +171,60 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
         <!-- Choice (single/multiple) -->
         <div *ngSwitchCase="'choice'" class="field">
           <p-inputgroup>
-            <select
-              class="p-inputtext p-component"
+            <!-- Single choice -->
+            <p-select
+              *ngIf="!$any(inputSchema)?.multiple"
               [(ngModel)]="model"
               name="answerChoice"
-              [multiple]="$any(inputSchema)?.multiple"
-              aria-label="Auswahl"
-              [required]="!$any(inputSchema)?.multiple"
-              [ngClass]="{ 'p-invalid': isControlInvalid(f, 'answerChoice') }"
-            >
-              <option *ngFor="let opt of $any(inputSchema)?.options || []" [ngValue]="opt.value">
-                {{ opt.label }}
-              </option>
-            </select>
+              [options]="$any(inputSchema)?.options || []"
+              optionLabel="label"
+              optionValue="value"
+              [showClear]="true"
+              [placeholder]="$any(inputSchema)?.placeholder || 'Option wählen'"
+              [style]="{ width: '100%', flex: '1 1 0', minWidth: '0' }"
+              class="w-full"
+              [ngClass]="{ 'p-invalid': f.submitted && !model }"
+            ></p-select>
+            <!-- Multiple choice -->
+            <p-multiSelect
+              *ngIf="$any(inputSchema)?.multiple"
+              [(ngModel)]="model"
+              name="answerChoice"
+              [options]="$any(inputSchema)?.options || []"
+              optionLabel="label"
+              optionValue="value"
+              defaultLabel="Optionen wählen"
+              display="chip"
+              [style]="{ width: '100%', flex: '1 1 0', minWidth: '0' }"
+              class="w-full"
+              [ngClass]="{ 'p-invalid': f.submitted && (!model || !model.length) }"
+            ></p-multiSelect>
+            <p-inputgroup-addon>
+              <button
+                type="button"
+                pButton
+                [icon]="uploaded ? 'pi pi-check-circle' : 'pi pi-image'"
+                class="p-button-icon-only"
+                [ngClass]="
+                  uploadRequired
+                    ? uploaded
+                      ? 'p-button-success'
+                      : 'p-button-warning p-button-outlined'
+                    : 'p-button-secondary p-button-outlined'
+                "
+                [pTooltip]="
+                  uploaded
+                    ? 'Bild bereits hochgeladen — tip top'
+                    : uploadRequired
+                    ? 'Bild hier hochladen — zwingend erforderlich'
+                    : 'Bild optional hochladen'
+                "
+                tooltipPosition="top"
+                appendTo="body"
+                (click)="openUpload.emit()"
+                aria-label="Bild hochladen"
+              ></button>
+            </p-inputgroup-addon>
             <p-inputgroup-addon>
               <span
                 class="tooltip-wrapper"
@@ -159,6 +259,30 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
               {{ $any(inputSchema)?.falseLabel || 'Nein' }}</label
             >
             <span class="flex-auto"></span>
+            <button
+              type="button"
+              pButton
+              [icon]="uploaded ? 'pi pi-check-circle' : 'pi pi-image'"
+              class="p-button-icon-only mr-2"
+              [ngClass]="
+                uploadRequired
+                  ? uploaded
+                    ? 'p-button-success'
+                    : 'p-button-warning p-button-outlined'
+                  : 'p-button-secondary p-button-outlined'
+              "
+              [pTooltip]="
+                uploaded
+                  ? 'Bild bereits hochgeladen — tip top'
+                  : uploadRequired
+                  ? 'Bild hier hochladen — zwingend erforderlich'
+                  : 'Bild optional hochladen'
+              "
+              tooltipPosition="top"
+              appendTo="body"
+              (click)="openUpload.emit()"
+              aria-label="Bild hochladen"
+            ></button>
             <span
               class="tooltip-wrapper"
               [pTooltip]="
@@ -185,29 +309,23 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
         </div>
       </ng-container>
 
-      <!-- Upload trigger and status -->
-      <div class="flex align-items-center gap-3 mt-3 upload-row">
-        <button
-          type="button"
-          pButton
-          icon="pi pi-upload"
-          label="Bild hochladen"
-          (click)="openUpload.emit()"
-        ></button>
-        <p-tag
-          *ngIf="uploadRequired"
-          [severity]="uploaded ? 'success' : 'warning'"
-          [value]="uploaded ? '1 Bild hinzugefügt' : 'Upload erforderlich'"
-        ></p-tag>
-      </div>
+      <!-- Upload moved into inputgroup as addon -->
 
       <!-- No separate submit row; submit is inline as an icon button -->
     </form>
   `,
   styles: [
     `
+      :host {
+        display: block;
+        width: 100%;
+        min-width: 0; /* allow flex parents to not clip */
+        flex: 1 1 auto;
+      }
       .form-shell {
-        max-width: 440px;
+        max-width: 30rem; /* cap field width for clean layout */
+        width: 100%;
+        margin-inline: auto; /* center inside available space */
       }
       .control-inline {
         display: flex;
@@ -226,6 +344,32 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
       /* Make inline icon button compact and aligned within inputgroup */
       :host ::ng-deep .p-inputgroup > .p-button {
         min-width: 3rem;
+      }
+      /* Ensure the main field (input/select) takes remaining space */
+      :host ::ng-deep .p-inputgroup {
+        width: 100%;
+        display: flex;
+      }
+      :host ::ng-deep .p-inputgroup > input.p-inputtext,
+      :host ::ng-deep .p-inputgroup > select.p-inputtext,
+      :host ::ng-deep .p-inputgroup > p-select,
+      :host ::ng-deep .p-inputgroup > p-multiSelect,
+      :host ::ng-deep .p-inputgroup > .p-select,
+      :host ::ng-deep .p-inputgroup > .p-multiselect {
+        flex: 1 1 auto;
+        min-width: 0; /* prevent overflow */
+      }
+      :host ::ng-deep .p-inputgroup > input.p-inputtext,
+      :host ::ng-deep .p-inputgroup > .p-select,
+      :host ::ng-deep .p-inputgroup > .p-multiselect {
+        width: 100%;
+      }
+      :host ::ng-deep .p-inputgroup-addon {
+        flex: 0 0 auto; /* addons shouldn't steal width */
+      }
+      :host ::ng-deep .p-inputgroup-addon > .p-button {
+        /* keep addons compact so the field remains wide */
+        min-width: 2.75rem;
       }
     `,
   ],
