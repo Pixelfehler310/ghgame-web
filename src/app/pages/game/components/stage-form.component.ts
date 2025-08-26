@@ -50,12 +50,23 @@ import { SelectModule } from 'primeng/select';
             [label]="uploaded ? 'Bild hochgeladen' : 'Bild hochladen'"
             [ngClass]="uploaded ? 'p-button-success' : 'upload-pending'"
             (click)="openUpload.emit()"
-            [pTooltip]="uploaded ? 'Bild bereits hochgeladen' : 'Bitte lade ein Bild hoch'"
+            [pTooltip]="
+              uploaded
+                ? 'Bild bereits hochgeladen'
+                : uploadRequired
+                ? 'Bitte lade ein Bild hoch'
+                : 'Bild optional hochladen'
+            "
             tooltipPosition="top"
             appendTo="body"
             aria-label="Bild hochladen"
           ></button>
-          <p class="m-0 text-500 small-hint" *ngIf="!uploaded">Ohne Bild kein Fortschritt.</p>
+          <p class="m-0 text-500 small-hint" *ngIf="uploadRequired && !uploaded">
+            Ohne Bild kein Fortschritt.
+          </p>
+          <p class="m-0 text-500 small-hint" *ngIf="!uploadRequired && !uploaded">
+            Du kannst ohne Bild fortfahren.
+          </p>
           <p class="m-0 text-500 small-hint" *ngIf="uploaded">Du kannst das Bild ersetzen.</p>
           <button
             type="submit"
@@ -352,7 +363,8 @@ export class StageFormComponent {
   /** Optional single inline message to show above the input */
   @Input() inlineMessageText: string | null = null;
   @Input() inlineSeverity: 'success' | 'info' | 'warn' | 'error' = 'info';
-  @Output() submit = new EventEmitter<any>();
+  // Use a non-native event name to avoid clashing with DOM 'submit' bubbling
+  @Output() submitted = new EventEmitter<any>();
   @Output() openUpload = new EventEmitter<void>();
 
   model: any = '';
@@ -366,7 +378,7 @@ export class StageFormComponent {
         return;
       }
       this.inlineMessageText = null;
-      this.submit.emit(this.model);
+      this.submitted.emit(this.model);
       return;
     }
     if (form.invalid) {
@@ -375,7 +387,7 @@ export class StageFormComponent {
       return;
     }
     this.inlineMessageText = null;
-    this.submit.emit(this.model);
+    this.submitted.emit(this.model);
   }
 
   isControlInvalid(form: NgForm, name: string): boolean {

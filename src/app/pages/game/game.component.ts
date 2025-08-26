@@ -68,7 +68,7 @@ import { MessageService } from 'primeng/api';
               [uploaded]="hasUpload"
               [inlineMessageText]="inlineMessageMode ? inlineMessageText : null"
               [inlineSeverity]="inlineMessageMode ? inlineSeverity : 'info'"
-              (submit)="handleSubmit($event)"
+              (submitted)="handleSubmit($event)"
               (openUpload)="handleOpenUpload()"
             ></ghg-stage-form>
           </div>
@@ -246,6 +246,8 @@ export class GameComponent implements OnInit, OnDestroy {
 
   // Stage form handlers (placeholders)
   handleSubmit(answer: any) {
+    console.warn('Trying to submit answer:', answer);
+
     if (!this.currentStage) return;
     const uploadRequired = !!this.currentStage.upload?.required;
     if (uploadRequired && !this.hasUpload) {
@@ -285,6 +287,7 @@ export class GameComponent implements OnInit, OnDestroy {
     // Placeholder: would open upload modal in future
     this.showUpload = true;
   }
+
   handleUploadSaved(file: File) {
     // Mock: mark as uploaded; real impl would call GameService.uploadImage
     console.log('upload saved', file?.name);
