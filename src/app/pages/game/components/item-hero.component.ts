@@ -20,7 +20,8 @@ import { CommonModule } from '@angular/common';
         padding: 0.5rem;
       }
       .image {
-        width: min(62vw, 380px);
+        /* smaller media on all screens */
+        width: min(50vw, 300px);
         aspect-ratio: 1 / 1;
         margin: 0 auto 0.75rem;
         background: var(--panel, #1a1f29);
@@ -31,15 +32,17 @@ import { CommonModule } from '@angular/common';
         box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
       }
       img {
-        width: 88%;
-        height: 88%;
+        /* image inside slightly smaller to reduce visual dominance */
+        width: 80%;
+        height: 80%;
         object-fit: contain;
         display: block;
       }
       .title {
         margin: 0;
         font-weight: 700;
-        font-size: 1rem;
+        /* larger associated text */
+        font-size: clamp(1.1rem, 2.2vw, 1.5rem);
         color: var(--text);
         letter-spacing: 0.02em;
       }

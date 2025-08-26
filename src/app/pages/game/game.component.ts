@@ -162,6 +162,9 @@ import { MessageService } from 'primeng/api';
         .gap-below-bubble {
           height: 1rem;
         }
+        .content-center {
+          max-width: 60vw; /* leaves ~20% margins on each side for large screens */
+        }
       }
       .hotbar {
         position: fixed;

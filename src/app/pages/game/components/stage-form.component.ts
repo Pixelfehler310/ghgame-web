@@ -7,6 +7,8 @@ import { MessageModule } from 'primeng/message';
 import { TagModule } from 'primeng/tag';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
+import { InputGroupModule } from 'primeng/inputgroup';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 
 @Component({
   selector: 'ghg-stage-form',
@@ -19,6 +21,8 @@ import { InputTextModule } from 'primeng/inputtext';
     TagModule,
     ButtonModule,
     InputTextModule,
+    InputGroupModule,
+    InputGroupAddonModule,
   ],
   template: `
     <form #f="ngForm" (ngSubmit)="onSubmit(f)" class="p-fluid form-shell">
@@ -29,59 +33,122 @@ import { InputTextModule } from 'primeng/inputtext';
         [text]="inlineMessageText"
       ></p-message>
 
-      <!-- Dynamic input rendering -->
+      <!-- Dynamic input rendering with inline submit icon button -->
       <ng-container [ngSwitch]="inputSchema?.kind">
         <!-- Text -->
-        <div *ngSwitchCase="'text'" class="field control-inline">
-          <input
-            type="text"
-            pInputText
-            [(ngModel)]="model"
-            name="answerText"
-            [placeholder]="$any(inputSchema)?.placeholder || 'Antwort eingeben'"
-            [attr.minlength]="$any(inputSchema)?.minLength || null"
-            [attr.maxlength]="$any(inputSchema)?.maxLength || null"
-            aria-label="Textantwort"
-            required
-            [ngClass]="{ 'p-invalid': isControlInvalid(f, 'answerText') }"
-          />
+        <div *ngSwitchCase="'text'" class="field">
+          <p-inputgroup>
+            <input
+              type="text"
+              pInputText
+              [(ngModel)]="model"
+              name="answerText"
+              [placeholder]="$any(inputSchema)?.placeholder || 'Antwort eingeben'"
+              [attr.minlength]="$any(inputSchema)?.minLength || null"
+              [attr.maxlength]="$any(inputSchema)?.maxLength || null"
+              aria-label="Textantwort"
+              required
+              [ngClass]="{ 'p-invalid': isControlInvalid(f, 'answerText') }"
+            />
+            <p-inputgroup-addon>
+              <span
+                class="tooltip-wrapper"
+                [pTooltip]="
+                  uploadRequired && !uploaded ? 'Bitte lade zuerst ein Bild hoch.' : undefined
+                "
+                tooltipPosition="top"
+                appendTo="body"
+              >
+                <button
+                  type="submit"
+                  pButton
+                  icon="pi pi-check"
+                  class="p-button-success p-button-icon-only"
+                  [disabled]="uploadRequired && !uploaded"
+                  [attr.aria-label]="'Antwort prüfen'"
+                ></button>
+              </span>
+            </p-inputgroup-addon>
+          </p-inputgroup>
         </div>
 
         <!-- Number -->
-        <div *ngSwitchCase="'number'" class="field control-inline">
-          <input
-            type="number"
-            pInputText
-            [(ngModel)]="model"
-            name="answerNumber"
-            [attr.min]="$any(inputSchema)?.min ?? null"
-            [attr.max]="$any(inputSchema)?.max ?? null"
-            [attr.step]="$any(inputSchema)?.step ?? null"
-            aria-label="Zahl"
-            required
-            [ngClass]="{ 'p-invalid': isControlInvalid(f, 'answerNumber') }"
-          />
+        <div *ngSwitchCase="'number'" class="field">
+          <p-inputgroup>
+            <input
+              type="number"
+              pInputText
+              [(ngModel)]="model"
+              name="answerNumber"
+              [attr.min]="$any(inputSchema)?.min ?? null"
+              [attr.max]="$any(inputSchema)?.max ?? null"
+              [attr.step]="$any(inputSchema)?.step ?? null"
+              aria-label="Zahl"
+              required
+              [ngClass]="{ 'p-invalid': isControlInvalid(f, 'answerNumber') }"
+            />
+            <p-inputgroup-addon>
+              <span
+                class="tooltip-wrapper"
+                [pTooltip]="
+                  uploadRequired && !uploaded ? 'Bitte lade zuerst ein Bild hoch.' : undefined
+                "
+                tooltipPosition="top"
+                appendTo="body"
+              >
+                <button
+                  type="submit"
+                  pButton
+                  icon="pi pi-check"
+                  class="p-button-success p-button-icon-only"
+                  [disabled]="uploadRequired && !uploaded"
+                  [attr.aria-label]="'Antwort prüfen'"
+                ></button>
+              </span>
+            </p-inputgroup-addon>
+          </p-inputgroup>
         </div>
 
-        <!-- Choice (single) -->
-        <div *ngSwitchCase="'choice'" class="field control-inline">
-          <select
-            class="p-inputtext p-component"
-            [(ngModel)]="model"
-            name="answerChoice"
-            [multiple]="$any(inputSchema)?.multiple"
-            aria-label="Auswahl"
-            [required]="!$any(inputSchema)?.multiple"
-            [ngClass]="{ 'p-invalid': isControlInvalid(f, 'answerChoice') }"
-          >
-            <option *ngFor="let opt of $any(inputSchema)?.options || []" [ngValue]="opt.value">
-              {{ opt.label }}
-            </option>
-          </select>
+        <!-- Choice (single/multiple) -->
+        <div *ngSwitchCase="'choice'" class="field">
+          <p-inputgroup>
+            <select
+              class="p-inputtext p-component"
+              [(ngModel)]="model"
+              name="answerChoice"
+              [multiple]="$any(inputSchema)?.multiple"
+              aria-label="Auswahl"
+              [required]="!$any(inputSchema)?.multiple"
+              [ngClass]="{ 'p-invalid': isControlInvalid(f, 'answerChoice') }"
+            >
+              <option *ngFor="let opt of $any(inputSchema)?.options || []" [ngValue]="opt.value">
+                {{ opt.label }}
+              </option>
+            </select>
+            <p-inputgroup-addon>
+              <span
+                class="tooltip-wrapper"
+                [pTooltip]="
+                  uploadRequired && !uploaded ? 'Bitte lade zuerst ein Bild hoch.' : undefined
+                "
+                tooltipPosition="top"
+                appendTo="body"
+              >
+                <button
+                  type="submit"
+                  pButton
+                  icon="pi pi-check"
+                  class="p-button-success p-button-icon-only"
+                  [disabled]="uploadRequired && !uploaded"
+                  [attr.aria-label]="'Antwort prüfen'"
+                ></button>
+              </span>
+            </p-inputgroup-addon>
+          </p-inputgroup>
         </div>
 
         <!-- Boolean -->
-        <div *ngSwitchCase="'boolean'" class="field control-inline">
+        <div *ngSwitchCase="'boolean'" class="field">
           <div class="flex align-items-center gap-3">
             <label class="flex align-items-center gap-2"
               ><input type="radio" name="answerBool" [value]="true" [(ngModel)]="model" required />
@@ -91,6 +158,24 @@ import { InputTextModule } from 'primeng/inputtext';
               ><input type="radio" name="answerBool" [value]="false" [(ngModel)]="model" required />
               {{ $any(inputSchema)?.falseLabel || 'Nein' }}</label
             >
+            <span class="flex-auto"></span>
+            <span
+              class="tooltip-wrapper"
+              [pTooltip]="
+                uploadRequired && !uploaded ? 'Bitte lade zuerst ein Bild hoch.' : undefined
+              "
+              tooltipPosition="top"
+              appendTo="body"
+            >
+              <button
+                type="submit"
+                pButton
+                icon="pi pi-check"
+                class="p-button-success p-button-icon-only"
+                [disabled]="uploadRequired && !uploaded"
+                [attr.aria-label]="'Antwort prüfen'"
+              ></button>
+            </span>
           </div>
         </div>
 
@@ -116,23 +201,7 @@ import { InputTextModule } from 'primeng/inputtext';
         ></p-tag>
       </div>
 
-      <div class="mt-3">
-        <!-- Wrap disabled button so tooltip still works when disabled -->
-        <span
-          class="tooltip-wrapper"
-          [pTooltip]="uploadRequired && !uploaded ? 'Bitte lade zuerst ein Bild hoch.' : undefined"
-          tooltipPosition="top"
-          appendTo="body"
-        >
-          <button
-            type="submit"
-            pButton
-            label="Antwort prüfen"
-            [disabled]="uploadRequired && !uploaded"
-            [attr.aria-disabled]="uploadRequired && !uploaded ? true : null"
-          ></button>
-        </span>
-      </div>
+      <!-- No separate submit row; submit is inline as an icon button -->
     </form>
   `,
   styles: [
@@ -153,6 +222,10 @@ import { InputTextModule } from 'primeng/inputtext';
       button[disabled] {
         cursor: not-allowed;
         opacity: 0.6;
+      }
+      /* Make inline icon button compact and aligned within inputgroup */
+      :host ::ng-deep .p-inputgroup > .p-button {
+        min-width: 3rem;
       }
     `,
   ],
