@@ -50,13 +50,7 @@ import { SelectModule } from 'primeng/select';
             [label]="uploaded ? 'Bild hochgeladen' : 'Bild hochladen'"
             [ngClass]="uploaded ? 'p-button-success' : 'upload-pending'"
             (click)="openUpload.emit()"
-            [pTooltip]="
-              uploaded
-                ? 'Bild bereits hochgeladen'
-                : uploadRequired
-                ? 'Bitte lade ein Bild hoch'
-                : 'Bild optional hochladen'
-            "
+            [pTooltip]="uploaded ? 'Bild bereits hochgeladen' : 'Bitte lade ein Bild hoch'"
             tooltipPosition="top"
             appendTo="body"
             aria-label="Bild hochladen"
@@ -105,7 +99,7 @@ import { SelectModule } from 'primeng/select';
                   uploadRequired
                     ? uploaded
                       ? 'p-button-success'
-                      : 'p-button-warning p-button-outlined'
+                      : 'upload-pending'
                     : 'p-button-secondary p-button-outlined'
                 "
                 [pTooltip]="
@@ -169,7 +163,7 @@ import { SelectModule } from 'primeng/select';
                   uploadRequired
                     ? uploaded
                       ? 'p-button-success'
-                      : 'p-button-warning p-button-outlined'
+                      : 'upload-pending'
                     : 'p-button-secondary p-button-outlined'
                 "
                 [pTooltip]="
@@ -232,7 +226,7 @@ import { SelectModule } from 'primeng/select';
                   uploadRequired
                     ? uploaded
                       ? 'p-button-success'
-                      : 'p-button-warning p-button-outlined'
+                      : 'upload-pending'
                     : 'p-button-secondary p-button-outlined'
                 "
                 [pTooltip]="
