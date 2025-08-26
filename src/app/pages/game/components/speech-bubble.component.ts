@@ -21,6 +21,11 @@ import { DialogChunk } from '../../../models/game.models';
         <div class="message" *ngFor="let m of messages">
           <p class="m-0">{{ m.text }}</p>
         </div>
+        <div class="question" *ngIf="question">
+          <p class="m-0">
+            <strong>{{ question }}</strong>
+          </p>
+        </div>
       </div>
     </div>
   `,
@@ -53,6 +58,10 @@ import { DialogChunk } from '../../../models/game.models';
       .message + .message {
         margin-top: 0.9rem;
       }
+      .question {
+        margin-top: 1rem;
+        color: var(--primary-300, #93c5fd);
+      }
       /* On desktop, center the bubble with ~20% margins on each side */
       @media (min-width: 1024px) {
         .bubble-row {
@@ -66,6 +75,7 @@ export class SpeechBubbleComponent implements AfterViewInit, OnChanges {
   @Input() messages: DialogChunk[] = [];
   @Input() avatarUrl?: string;
   @Input() autoScroll = true;
+  @Input() question?: string;
 
   @ViewChild('bubble') bubbleRef?: ElementRef<HTMLDivElement>;
 
