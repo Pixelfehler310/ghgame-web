@@ -15,6 +15,7 @@ import { SpeechBubbleComponent } from './components/speech-bubble.component';
 import { ItemHeroComponent } from './components/item-hero.component';
 import { StageFormComponent } from './components/stage-form.component';
 import { UploadModalComponent } from './components/upload-modal.component';
+import { HotbarComponent } from './components/hotbar.component';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 
@@ -31,6 +32,7 @@ import { MessageService } from 'primeng/api';
     StageFormComponent,
     UploadModalComponent,
     ToastModule,
+    HotbarComponent,
   ],
   template: `
     <section class="game p-fluid">
@@ -55,6 +57,7 @@ import { MessageService } from 'primeng/api';
             <ghg-speech-bubble
               [avatarUrl]="npcAvatarUrl"
               [messages]="dialogMessages"
+              [question]="currentStage?.question?.prompt"
             ></ghg-speech-bubble>
 
             <div class="gap-below-bubble"></div>
@@ -71,25 +74,7 @@ import { MessageService } from 'primeng/api';
           </div>
         </div>
 
-        <div
-          class="hotbar shadow-2 p-2 flex justify-content-center gap-2"
-          role="listbox"
-          aria-label="Inventarleiste"
-        >
-          <ng-container *ngFor="let slot of visibleHotbar; let i = index">
-            <div
-              class="slot border-round"
-              role="option"
-              [attr.aria-label]="
-                slot.type === 'more' ? 'Weitere Items: +' + slot.more : 'Slot ' + (i + 1)
-              "
-              aria-selected="false"
-            >
-              <span *ngIf="slot.type === 'item'">{{ slot.item?.name || 'Item' }}</span>
-              <span *ngIf="slot.type === 'more'">+{{ slot.more }}</span>
-            </div>
-          </ng-container>
-        </div>
+        <ghg-hotbar [items]="state?.inventory || []" [hardCap]="config.hotbarSlots"></ghg-hotbar>
 
         <ghg-upload-modal
           *ngIf="showUpload"
@@ -166,35 +151,7 @@ import { MessageService } from 'primeng/api';
           max-width: 60vw; /* leaves ~20% margins on each side for large screens */
         }
       }
-      .hotbar {
-        position: fixed;
-        left: 50%;
-        transform: translateX(-50%);
-        bottom: max(8px, env(safe-area-inset-bottom));
-        background: rgba(26, 31, 41, 0.7);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(148, 163, 184, 0.18);
-        border-radius: var(--radius-pixel);
-        z-index: 30;
-      }
-      .slot {
-        width: clamp(52px, 6vw, 72px);
-        height: clamp(52px, 6vw, 72px);
-        background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(0, 0, 0, 0.12))
-            no-repeat,
-          var(--panel, #1a1f29);
-        color: var(--muted, #a8b0bf);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), inset 0 -2px 6px rgba(0, 0, 0, 0.35);
-        border: 1px solid rgba(148, 163, 184, 0.18);
-        transition: transform 160ms ease, box-shadow 160ms ease;
-      }
-      .slot:hover {
-        transform: translateY(-1px);
-        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), inset 0 -3px 8px rgba(0, 0, 0, 0.4);
-      }
+      /* hotbar styles moved into ghg-hotbar */
       .bottom-spacer {
         height: 88px;
       }
