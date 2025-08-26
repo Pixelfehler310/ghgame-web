@@ -1,0 +1,387 @@
+[
+  {
+    "id": "stage-01",
+    "index": 1,
+    "item": {
+      "id": "wood_pickaxe",
+      "name": "Holzspitzhacke",
+      "iconUrl": "/img/plushie_neutral.PNG"
+    },
+    "npcDialog": [
+      {
+        "id": "d1",
+        "text": "Willkommen! Zeit loszulegen."
+      }
+    ],
+    "question": {
+      "prompt": "Wie viele Holzblöcke brauchst du für eine Spitzhacke?",
+      "input": {
+        "kind": "number",
+        "min": 1,
+        "max": 10,
+        "step": 1
+      },
+      "check": {
+        "mode": "exact",
+        "expected": 3
+      }
+    },
+    "upload": {
+      "required": true,
+      "acceptMime": [
+        "image/png",
+        "image/jpeg"
+      ],
+      "maxSizeMB": 5
+    }
+  },
+  {
+    "id": "stage-02",
+    "index": 2,
+    "item": {
+      "id": "stone_pickaxe",
+      "name": "Steinspitzhacke",
+      "iconUrl": "/img/plushie_neutral.PNG"
+    },
+    "npcDialog": [
+      {
+        "id": "d1",
+        "text": "Stein ist der nächste Schritt."
+      }
+    ],
+    "question": {
+      "prompt": "Welche Stufe folgt nach Holz?",
+      "input": {
+        "kind": "choice",
+        "options": [
+          {
+            "id": "o1",
+            "label": "Stein",
+            "value": "stone"
+          },
+          {
+            "id": "o2",
+            "label": "Gold",
+            "value": "gold"
+          },
+          {
+            "id": "o3",
+            "label": "Diamant",
+            "value": "diamond"
+          }
+        ]
+      },
+      "check": {
+        "mode": "exact",
+        "expected": "stone"
+      }
+    },
+    "upload": {
+      "required": true,
+      "acceptMime": [
+        "image/png",
+        "image/jpeg"
+      ],
+      "maxSizeMB": 5
+    }
+  },
+  {
+    "id": "stage-03",
+    "index": 3,
+    "item": {
+      "id": "iron_pickaxe",
+      "name": "Eisenspitzhacke",
+      "iconUrl": "/img/plushie_neutral.PNG"
+    },
+    "npcDialog": [
+      {
+        "id": "d1",
+        "text": "Nur ein Bild diesmal – zeig dein Erz."
+      }
+    ],
+    "question": {
+      "prompt": "Lade ein Bild hoch um fortzufahren",
+      "input": {
+        "kind": "uploadOnly"
+      }
+    },
+    "upload": {
+      "required": true,
+      "acceptMime": [
+        "image/png",
+        "image/jpeg"
+      ],
+      "maxSizeMB": 5
+    }
+  },
+  {
+    "id": "stage-04",
+    "index": 4,
+    "item": {
+      "id": "gold_pickaxe",
+      "name": "Goldspitzhacke",
+      "iconUrl": "/img/plushie_neutral.PNG"
+    },
+    "npcDialog": [
+      {
+        "id": "d1",
+        "text": "Gold glänzt schön."
+      }
+    ],
+    "question": {
+      "prompt": "Welches Metall ist gelb?",
+      "input": {
+        "kind": "choice",
+        "options": [
+          {
+            "id": "o1",
+            "label": "Gold",
+            "value": "gold"
+          },
+          {
+            "id": "o2",
+            "label": "Eisen",
+            "value": "iron"
+          },
+          {
+            "id": "o3",
+            "label": "Kohle",
+            "value": "coal"
+          }
+        ]
+      },
+      "check": {
+        "mode": "exact",
+        "expected": "gold"
+      }
+    },
+    "upload": {
+      "required": true,
+      "acceptMime": [
+        "image/png",
+        "image/jpeg"
+      ],
+      "maxSizeMB": 5
+    }
+  },
+  {
+    "id": "stage-05",
+    "index": 5,
+    "item": {
+      "id": "diamond_pickaxe",
+      "name": "Diamantspitzhacke",
+      "iconUrl": "/img/plushie_neutral.PNG"
+    },
+    "npcDialog": [
+      {
+        "id": "d1",
+        "text": "Diamanten sind selten."
+      }
+    ],
+    "question": {
+      "prompt": "Schreibe das Wort DIAMANT",
+      "input": {
+        "kind": "text",
+        "placeholder": "Antwort...",
+        "caseSensitive": true
+      },
+      "check": {
+        "mode": "exact",
+        "expected": "DIAMANT",
+        "caseSensitive": true
+      }
+    },
+    "upload": {
+      "required": true,
+      "acceptMime": [
+        "image/png",
+        "image/jpeg"
+      ],
+      "maxSizeMB": 5
+    }
+  },
+  {
+    "id": "stage-06",
+    "index": 6,
+    "item": {
+      "id": "map",
+      "name": "Karte",
+      "iconUrl": "/img/plushie_neutral.PNG"
+    },
+    "npcDialog": [
+      {
+        "id": "d1",
+        "text": "Finde einen sicheren Bereich."
+      }
+    ],
+    "question": {
+      "prompt": "Gebe X und Y als Zahlen ein",
+      "input": {
+        "kind": "coordinate",
+        "labels": {
+          "x": "X",
+          "y": "Y"
+        },
+        "minX": -500,
+        "maxX": 500,
+        "minY": -500,
+        "maxY": 500
+      },
+      "check": {
+        "mode": "coordinateWithin",
+        "rect": {
+          "minX": -50,
+          "maxX": 50,
+          "minY": -50,
+          "maxY": 50
+        }
+      }
+    },
+    "upload": {
+      "required": true,
+      "acceptMime": [
+        "image/png",
+        "image/jpeg"
+      ],
+      "maxSizeMB": 5
+    }
+  },
+  {
+    "id": "stage-07",
+    "index": 7,
+    "item": {
+      "id": "clock",
+      "name": "Uhr",
+      "iconUrl": "/img/plushie_neutral.PNG"
+    },
+    "npcDialog": [
+      {
+        "id": "d1",
+        "text": "Zeitformat überprüfen."
+      }
+    ],
+    "question": {
+      "prompt": "Gib eine Zeit ein (hh:mm)",
+      "input": {
+        "kind": "time"
+      },
+      "check": {
+        "mode": "regex",
+        "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$"
+      }
+    },
+    "upload": {
+      "required": true,
+      "acceptMime": [
+        "image/png",
+        "image/jpeg"
+      ],
+      "maxSizeMB": 5
+    }
+  },
+  {
+    "id": "stage-08",
+    "index": 8,
+    "item": {
+      "id": "compass",
+      "name": "Kompass",
+      "iconUrl": "/img/plushie_neutral.PNG"
+    },
+    "npcDialog": [
+      {
+        "id": "d1",
+        "text": "Neuer Tag?"
+      }
+    ],
+    "question": {
+      "prompt": "Datum (YYYY-MM-DD)",
+      "input": {
+        "kind": "date",
+        "min": "2025-01-01",
+        "max": "2025-12-31"
+      },
+      "check": {
+        "mode": "regex",
+        "pattern": "^2025-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$"
+      }
+    },
+    "upload": {
+      "required": true,
+      "acceptMime": [
+        "image/png",
+        "image/jpeg"
+      ],
+      "maxSizeMB": 5
+    }
+  },
+  {
+    "id": "stage-09",
+    "index": 9,
+    "item": {
+      "id": "book",
+      "name": "Buch",
+      "iconUrl": "/img/plushie_neutral.PNG"
+    },
+    "npcDialog": [
+      {
+        "id": "d1",
+        "text": "Zeig JSON Kenntnis."
+      }
+    ],
+    "question": {
+      "prompt": "Schreibe JSON mit einem key 'ok': true",
+      "input": {
+        "kind": "code",
+        "language": "json",
+        "maxLength": 120
+      },
+      "check": {
+        "mode": "regex",
+        "pattern": "\\{\\s*\\\"ok\\\"\\s*:\\s*true\\s*\\}"
+      }
+    },
+    "upload": {
+      "required": true,
+      "acceptMime": [
+        "image/png",
+        "image/jpeg"
+      ],
+      "maxSizeMB": 5
+    }
+  },
+  {
+    "id": "stage-10",
+    "index": 10,
+    "item": {
+      "id": "shield",
+      "name": "Schild",
+      "iconUrl": "/img/plushie_neutral.PNG"
+    },
+    "npcDialog": [
+      {
+        "id": "d1",
+        "text": "Regex Rätsel."
+      }
+    ],
+    "question": {
+      "prompt": "Regex: beginnt mit 'mc' und endet mit 'game'",
+      "input": {
+        "kind": "regex",
+        "description": "Gib ein Regex ein"
+      },
+      "check": {
+        "mode": "regex",
+        "pattern": "^mc.*game$",
+        "flags": "i"
+      }
+    },
+    "upload": {
+      "required": true,
+      "acceptMime": [
+        "image/png",
+        "image/jpeg"
+      ],
+      "maxSizeMB": 5
+    }
+  }
+]

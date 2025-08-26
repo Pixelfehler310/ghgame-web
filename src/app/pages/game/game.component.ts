@@ -10,7 +10,7 @@ import {
   QuestionInput,
   Stage,
 } from '../../models/game.models';
-import stagesData from './stages.mock.json';
+import stagesData from './stages.mock2.json';
 import { SpeechBubbleComponent } from './components/speech-bubble.component';
 import { ItemHeroComponent } from './components/item-hero.component';
 import { StageFormComponent } from './components/stage-form.component';
@@ -292,17 +292,20 @@ export class GameComponent implements OnInit, OnDestroy {
     if (!this.currentStage) return;
     const uploadRequired = !!this.currentStage.upload?.required;
     if (uploadRequired && !this.hasUpload) {
-      // Form should already disable submit; silent guard
       this.showMessage('Bitte lade zuerst ein Bild hoch.', 'warn');
       return;
     }
-    const isCorrect = this.evaluateAnswer(answer, this.currentStage.question.check);
+    // For uploadOnly stages we skip answer evaluation entirely.
+    const skipAnswer = this.currentStage.question.input.kind === 'uploadOnly';
+    let isCorrect = true;
+    if (!skipAnswer) {
+      isCorrect = this.evaluateAnswer(answer, this.currentStage.question.check);
+    }
     if (!isCorrect) {
-      // No longer add messages to speech bubble; use toast/inline instead
       this.showMessage('Das ist leider nicht korrekt. Versuch es nochmal.', 'error');
       return;
     }
-    // Correct: add item to inventory and advance
+    // Success: add item (once) then advance
     if (!this.state) {
       this.state = {
         currentStageIndex: this.currentStage.index,
@@ -315,7 +318,10 @@ export class GameComponent implements OnInit, OnDestroy {
     if (!this.state.inventory.find((it) => it.id === item.id)) {
       this.state.inventory = [...this.state.inventory, item as InventoryItemDef];
     }
-    this.showMessage('Korrekt! Weiter geht’s.', 'success');
+    this.showMessage(
+      skipAnswer ? 'Bild akzeptiert! Weiter geht’s.' : 'Korrekt! Weiter geht’s.',
+      'success'
+    );
     this.advanceStage();
   }
   handleOpenUpload() {
@@ -327,6 +333,10 @@ export class GameComponent implements OnInit, OnDestroy {
     console.log('upload saved', file?.name);
     this.hasUpload = true;
     this.showUpload = false;
+    // Auto-advance if this is an upload-only stage
+    if (this.currentStage?.question.input.kind === 'uploadOnly') {
+      this.handleSubmit(null);
+    }
   }
 
   private evaluateAnswer(answer: any, check: any): boolean {

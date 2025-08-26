@@ -9,7 +9,6 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
-import { MultiSelectModule } from 'primeng/multiselect';
 import { SelectModule } from 'primeng/select';
 
 @Component({
@@ -26,7 +25,6 @@ import { SelectModule } from 'primeng/select';
     InputGroupModule,
     InputGroupAddonModule,
     SelectModule,
-    MultiSelectModule,
   ],
   template: `
     <form #f="ngForm" (ngSubmit)="onSubmit(f)" class="p-fluid form-shell">
@@ -39,6 +37,36 @@ import { SelectModule } from 'primeng/select';
 
       <!-- Dynamic input rendering with inline submit icon button -->
       <ng-container [ngSwitch]="inputSchema?.kind">
+        <!-- Upload-only stage: only show the image upload button, large and centered -->
+        <div
+          *ngSwitchCase="'uploadOnly'"
+          class="field upload-only-wrapper flex flex-column align-items-center gap-3"
+        >
+          <button
+            type="button"
+            pButton
+            class="upload-only-btn"
+            [icon]="uploaded ? 'pi pi-check-circle' : 'pi pi-image'"
+            [label]="uploaded ? 'Bild hochgeladen' : 'Bild hochladen'"
+            [ngClass]="uploaded ? 'p-button-success' : 'upload-pending'"
+            (click)="openUpload.emit()"
+            [pTooltip]="uploaded ? 'Bild bereits hochgeladen' : 'Bitte lade ein Bild hoch'"
+            tooltipPosition="top"
+            appendTo="body"
+            aria-label="Bild hochladen"
+          ></button>
+          <p class="m-0 text-500 small-hint" *ngIf="!uploaded">Ohne Bild kein Fortschritt.</p>
+          <p class="m-0 text-500 small-hint" *ngIf="uploaded">Du kannst das Bild ersetzen.</p>
+          <button
+            type="submit"
+            pButton
+            icon="pi pi-check"
+            label="Weiter"
+            class="p-button-success"
+            [disabled]="uploadRequired && !uploaded"
+            aria-label="Weiter"
+          ></button>
+        </div>
         <!-- Text -->
         <div *ngSwitchCase="'text'" class="field">
           <p-inputgroup>
@@ -71,7 +99,7 @@ import { SelectModule } from 'primeng/select';
                 "
                 [pTooltip]="
                   uploaded
-                    ? 'Bild bereits hochgeladen — tip top'
+                    ? 'Bild bereits hochgeladen'
                     : uploadRequired
                     ? 'Bild hier hochladen — zwingend erforderlich'
                     : 'Bild optional hochladen'
@@ -135,7 +163,7 @@ import { SelectModule } from 'primeng/select';
                 "
                 [pTooltip]="
                   uploaded
-                    ? 'Bild bereits hochgeladen — tip top'
+                    ? 'Bild bereits hochgeladen'
                     : uploadRequired
                     ? 'Bild hier hochladen — zwingend erforderlich'
                     : 'Bild optional hochladen'
@@ -168,12 +196,10 @@ import { SelectModule } from 'primeng/select';
           </p-inputgroup>
         </div>
 
-        <!-- Choice (single/multiple) -->
+        <!-- Choice (single only now) -->
         <div *ngSwitchCase="'choice'" class="field">
           <p-inputgroup>
-            <!-- Single choice -->
             <p-select
-              *ngIf="!$any(inputSchema)?.multiple"
               [(ngModel)]="model"
               name="answerChoice"
               [options]="$any(inputSchema)?.options || []"
@@ -185,20 +211,6 @@ import { SelectModule } from 'primeng/select';
               class="w-full"
               [ngClass]="{ 'p-invalid': f.submitted && !model }"
             ></p-select>
-            <!-- Multiple choice -->
-            <p-multiSelect
-              *ngIf="$any(inputSchema)?.multiple"
-              [(ngModel)]="model"
-              name="answerChoice"
-              [options]="$any(inputSchema)?.options || []"
-              optionLabel="label"
-              optionValue="value"
-              defaultLabel="Optionen wählen"
-              display="chip"
-              [style]="{ width: '100%', flex: '1 1 0', minWidth: '0' }"
-              class="w-full"
-              [ngClass]="{ 'p-invalid': f.submitted && (!model || !model.length) }"
-            ></p-multiSelect>
             <p-inputgroup-addon>
               <button
                 type="button"
@@ -214,7 +226,7 @@ import { SelectModule } from 'primeng/select';
                 "
                 [pTooltip]="
                   uploaded
-                    ? 'Bild bereits hochgeladen — tip top'
+                    ? 'Bild bereits hochgeladen'
                     : uploadRequired
                     ? 'Bild hier hochladen — zwingend erforderlich'
                     : 'Bild optional hochladen'
@@ -245,62 +257,6 @@ import { SelectModule } from 'primeng/select';
               </span>
             </p-inputgroup-addon>
           </p-inputgroup>
-        </div>
-
-        <!-- Boolean -->
-        <div *ngSwitchCase="'boolean'" class="field">
-          <div class="flex align-items-center gap-3">
-            <label class="flex align-items-center gap-2"
-              ><input type="radio" name="answerBool" [value]="true" [(ngModel)]="model" required />
-              {{ $any(inputSchema)?.trueLabel || 'Ja' }}</label
-            >
-            <label class="flex align-items-center gap-2"
-              ><input type="radio" name="answerBool" [value]="false" [(ngModel)]="model" required />
-              {{ $any(inputSchema)?.falseLabel || 'Nein' }}</label
-            >
-            <span class="flex-auto"></span>
-            <button
-              type="button"
-              pButton
-              [icon]="uploaded ? 'pi pi-check-circle' : 'pi pi-image'"
-              class="p-button-icon-only mr-2"
-              [ngClass]="
-                uploadRequired
-                  ? uploaded
-                    ? 'p-button-success'
-                    : 'p-button-warning p-button-outlined'
-                  : 'p-button-secondary p-button-outlined'
-              "
-              [pTooltip]="
-                uploaded
-                  ? 'Bild bereits hochgeladen — tip top'
-                  : uploadRequired
-                  ? 'Bild hier hochladen — zwingend erforderlich'
-                  : 'Bild optional hochladen'
-              "
-              tooltipPosition="top"
-              appendTo="body"
-              (click)="openUpload.emit()"
-              aria-label="Bild hochladen"
-            ></button>
-            <span
-              class="tooltip-wrapper"
-              [pTooltip]="
-                uploadRequired && !uploaded ? 'Bitte lade zuerst ein Bild hoch.' : undefined
-              "
-              tooltipPosition="top"
-              appendTo="body"
-            >
-              <button
-                type="submit"
-                pButton
-                icon="pi pi-check"
-                class="p-button-success p-button-icon-only"
-                [disabled]="uploadRequired && !uploaded"
-                [attr.aria-label]="'Antwort prüfen'"
-              ></button>
-            </span>
-          </div>
         </div>
 
         <!-- Fallback -->
@@ -321,6 +277,21 @@ import { SelectModule } from 'primeng/select';
         width: 100%;
         min-width: 0; /* allow flex parents to not clip */
         flex: 1 1 auto;
+      }
+      .upload-only-wrapper {
+        text-align: center;
+      }
+      .upload-only-btn {
+        font-size: 1.05rem;
+        padding: 1.1rem 1.4rem;
+      }
+      .upload-pending {
+        border: 2px dashed var(--yellow-400, #facc15) !important;
+        background: rgba(250, 204, 21, 0.08) !important;
+        color: var(--yellow-400, #facc15) !important;
+      }
+      .upload-pending .pi {
+        color: var(--yellow-400, #facc15);
       }
       .form-shell {
         max-width: 30rem; /* cap field width for clean layout */
@@ -387,6 +358,17 @@ export class StageFormComponent {
   model: any = '';
 
   onSubmit(form: NgForm) {
+    // Upload-only progression: allow submit when an upload exists (or not required)
+    if (this.inputSchema?.kind === 'uploadOnly') {
+      if (this.uploadRequired && !this.uploaded) {
+        this.inlineMessageText = 'Bitte lade zuerst ein Bild hoch.';
+        this.inlineSeverity = 'warn';
+        return;
+      }
+      this.inlineMessageText = null;
+      this.submit.emit(this.model);
+      return;
+    }
     if (form.invalid) {
       this.inlineMessageText = 'Bitte fülle das Feld aus.';
       this.inlineSeverity = 'warn';

@@ -32,7 +32,7 @@ export type QuestionInput =
     }
   | { kind: 'number'; min?: number; max?: number; step?: number; integerOnly?: boolean }
   | { kind: 'choice'; multiple?: boolean; options: { id: string; label: string; value: string }[] }
-  | { kind: 'boolean'; trueLabel?: string; falseLabel?: string }
+  /* Removed boolean variant for simplification */
   | { kind: 'date'; min?: string; max?: string }
   | { kind: 'time' }
   | {
@@ -44,7 +44,8 @@ export type QuestionInput =
       maxY?: number;
     }
   | { kind: 'code'; language?: 'json' | 'javascript' | 'plaintext'; maxLength?: number }
-  | { kind: 'regex'; description?: string };
+  | { kind: 'regex'; description?: string }
+  | { kind: 'uploadOnly' }; // New special stage: only an image upload, no textual answer
 
 // Data-driven correctness checks
 export type AnswerCheck =
@@ -72,7 +73,8 @@ export interface Stage {
   question: {
     prompt: string;
     input: QuestionInput;
-    check: AnswerCheck;
+    /** Optional now; for 'uploadOnly' stages there is no answer validation. */
+    check?: AnswerCheck;
     triesAllowed?: number; // default: unlimited
     hintAfterTries?: number; // show hint after N tries
     hintText?: string;

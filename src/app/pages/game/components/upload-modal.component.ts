@@ -53,6 +53,14 @@ import { CommonModule } from '@angular/common';
         border-top-left-radius: 12px;
         border-top-right-radius: 12px;
       }
+      @media (min-width: 768px) {
+        .overlay {
+          align-items: center;
+        }
+        .sheet {
+          border-radius: 16px;
+        }
+      }
       .preview {
         width: 100%;
         aspect-ratio: 1 / 1;
