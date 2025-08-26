@@ -17,15 +17,18 @@ import { CommonModule } from '@angular/common';
     `
       .hero {
         text-align: center;
+        padding: 0.5rem;
       }
       .image {
-        width: min(62vw, 360px);
+        width: min(62vw, 380px);
         aspect-ratio: 1 / 1;
         margin: 0 auto 0.75rem;
-        background: var(--surface-50, #1a1f29);
+        background: var(--panel, #1a1f29);
         display: flex;
         align-items: center;
         justify-content: center;
+        border: 1px solid rgba(148, 163, 184, 0.2);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
       }
       img {
         width: 88%;
@@ -37,6 +40,8 @@ import { CommonModule } from '@angular/common';
         margin: 0;
         font-weight: 700;
         font-size: 1rem;
+        color: var(--text);
+        letter-spacing: 0.02em;
       }
     `,
   ],

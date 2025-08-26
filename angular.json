@@ -34,9 +34,9 @@
               }
             ],
             "styles": [
-              "src/styles.scss",
               "node_modules/primeicons/primeicons.css",
-              "node_modules/primeflex/primeflex.css"
+              "node_modules/primeflex/primeflex.css",
+              "src/styles.scss"
             ]
           },
           "configurations": {
@@ -94,9 +94,9 @@
               }
             ],
             "styles": [
-              "src/styles.scss",
-              "node_modules/primeicons/primeicons.css",
-              "node_modules/primeflex/primeflex.css"
+              "primeicons/primeicons.css",
+              "primeflex/primeflex.css",
+              "src/styles.scss"
             ]
           }
         }

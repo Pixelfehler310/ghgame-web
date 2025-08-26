@@ -1,0 +1,406 @@
+[
+    {
+        "id": "stage-01",
+        "index": 1,
+        "item": {
+            "id": "wooden_pickaxe",
+            "name": "Holzspitzhacke",
+            "iconUrl": "/img/plushie_neutral.PNG"
+        },
+        "title": "Erste Schritte",
+        "npcDialog": [
+            {
+                "id": "d1",
+                "text": "Willkommen im Abenteuer!"
+            },
+            {
+                "id": "d2",
+                "text": "Finde Holz und baue dir eine Spitzhacke."
+            }
+        ],
+        "question": {
+            "prompt": "Wie viele Holzblöcke brauchst du für eine Spitzhacke?",
+            "input": {
+                "kind": "number",
+                "min": 1,
+                "max": 10,
+                "step": 1
+            },
+            "check": {
+                "mode": "exact",
+                "expected": 3
+            }
+        },
+        "upload": {
+            "required": true,
+            "acceptMime": [
+                "image/png",
+                "image/jpeg"
+            ],
+            "maxSizeMB": 5
+        }
+    },
+    {
+        "id": "stage-02",
+        "index": 2,
+        "item": {
+            "id": "stone_pickaxe",
+            "name": "Steinspitzhacke",
+            "iconUrl": "/img/plushie_neutral.PNG"
+        },
+        "npcDialog": [
+            {
+                "id": "d1",
+                "text": "Zeit für bessere Werkzeuge!"
+            },
+            {
+                "id": "d2",
+                "text": "Sammle Stein für eine neue Spitzhacke."
+            }
+        ],
+        "question": {
+            "prompt": "Welche Stufe folgt nach Holz?",
+            "input": {
+                "kind": "choice",
+                "options": [
+                    {
+                        "id": "o1",
+                        "label": "Stein",
+                        "value": "stone"
+                    },
+                    {
+                        "id": "o2",
+                        "label": "Eisen",
+                        "value": "iron"
+                    },
+                    {
+                        "id": "o3",
+                        "label": "Gold",
+                        "value": "gold"
+                    }
+                ]
+            },
+            "check": {
+                "mode": "exact",
+                "expected": "stone"
+            }
+        },
+        "upload": {
+            "required": true,
+            "acceptMime": [
+                "image/png",
+                "image/jpeg"
+            ],
+            "maxSizeMB": 5
+        }
+    },
+    {
+        "id": "stage-03",
+        "index": 3,
+        "item": {
+            "id": "iron_pickaxe",
+            "name": "Eisenspitzhacke",
+            "iconUrl": "/img/plushie_neutral.PNG"
+        },
+        "npcDialog": [
+            {
+                "id": "d1",
+                "text": "Du wirst stärker!"
+            }
+        ],
+        "question": {
+            "prompt": "Ist Eisen härter als Stein?",
+            "input": {
+                "kind": "boolean",
+                "trueLabel": "Ja",
+                "falseLabel": "Nein"
+            },
+            "check": {
+                "mode": "exact",
+                "expected": true
+            }
+        },
+        "upload": {
+            "required": true,
+            "acceptMime": [
+                "image/png",
+                "image/jpeg"
+            ],
+            "maxSizeMB": 5
+        }
+    },
+    {
+        "id": "stage-04",
+        "index": 4,
+        "item": {
+            "id": "gold_pickaxe",
+            "name": "Goldspitzhacke",
+            "iconUrl": "/img/plushie_neutral.PNG"
+        },
+        "npcDialog": [
+            {
+                "id": "d1",
+                "text": "Glänzend!"
+            }
+        ],
+        "question": {
+            "prompt": "Wähle alle Metalle aus:",
+            "input": {
+                "kind": "choice",
+                "multiple": true,
+                "options": [
+                    {
+                        "id": "o1",
+                        "label": "Gold",
+                        "value": "gold"
+                    },
+                    {
+                        "id": "o2",
+                        "label": "Holz",
+                        "value": "wood"
+                    },
+                    {
+                        "id": "o3",
+                        "label": "Eisen",
+                        "value": "iron"
+                    }
+                ]
+            },
+            "check": {
+                "mode": "anyOf",
+                "expected": [
+                    "gold",
+                    "iron"
+                ]
+            }
+        },
+        "upload": {
+            "required": true,
+            "acceptMime": [
+                "image/png",
+                "image/jpeg"
+            ],
+            "maxSizeMB": 5
+        }
+    },
+    {
+        "id": "stage-05",
+        "index": 5,
+        "item": {
+            "id": "diamond_pickaxe",
+            "name": "Diamantspitzhacke",
+            "iconUrl": "/img/plushie_neutral.PNG"
+        },
+        "npcDialog": [
+            {
+                "id": "d1",
+                "text": "Auf zum Diamant!"
+            }
+        ],
+        "question": {
+            "prompt": "Schreibe das Wort DIAMANT",
+            "input": {
+                "kind": "text",
+                "placeholder": "Antwort...",
+                "caseSensitive": true
+            },
+            "check": {
+                "mode": "exact",
+                "expected": "DIAMANT",
+                "caseSensitive": true
+            }
+        },
+        "upload": {
+            "required": true,
+            "acceptMime": [
+                "image/png",
+                "image/jpeg"
+            ],
+            "maxSizeMB": 5
+        }
+    },
+    {
+        "id": "stage-06",
+        "index": 6,
+        "item": {
+            "id": "map",
+            "name": "Karte",
+            "iconUrl": "/img/plushie_neutral.PNG"
+        },
+        "npcDialog": [
+            {
+                "id": "d1",
+                "text": "Finde die Koordinaten!"
+            }
+        ],
+        "question": {
+            "prompt": "Gebe X und Y als Zahlen ein",
+            "input": {
+                "kind": "coordinate",
+                "labels": {
+                    "x": "X",
+                    "y": "Y"
+                },
+                "minX": -1000,
+                "maxX": 1000,
+                "minY": -1000,
+                "maxY": 1000
+            },
+            "check": {
+                "mode": "coordinateWithin",
+                "rect": {
+                    "minX": -100,
+                    "maxX": 100,
+                    "minY": -50,
+                    "maxY": 50
+                }
+            }
+        },
+        "upload": {
+            "required": true,
+            "acceptMime": [
+                "image/png",
+                "image/jpeg"
+            ],
+            "maxSizeMB": 5
+        }
+    },
+    {
+        "id": "stage-07",
+        "index": 7,
+        "item": {
+            "id": "clock",
+            "name": "Uhr",
+            "iconUrl": "/img/plushie_neutral.PNG"
+        },
+        "npcDialog": [
+            {
+                "id": "d1",
+                "text": "Wie spät ist es?"
+            }
+        ],
+        "question": {
+            "prompt": "Gib eine Zeit ein (hh:mm)",
+            "input": {
+                "kind": "time"
+            },
+            "check": {
+                "mode": "regex",
+                "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$"
+            }
+        },
+        "upload": {
+            "required": true,
+            "acceptMime": [
+                "image/png",
+                "image/jpeg"
+            ],
+            "maxSizeMB": 5
+        }
+    },
+    {
+        "id": "stage-08",
+        "index": 8,
+        "item": {
+            "id": "compass",
+            "name": "Kompass",
+            "iconUrl": "/img/plushie_neutral.PNG"
+        },
+        "npcDialog": [
+            {
+                "id": "d1",
+                "text": "Finde den Weg."
+            }
+        ],
+        "question": {
+            "prompt": "Datum (YYYY-MM-DD)",
+            "input": {
+                "kind": "date",
+                "min": "2025-01-01",
+                "max": "2025-12-31"
+            },
+            "check": {
+                "mode": "regex",
+                "pattern": "^2025-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$"
+            }
+        },
+        "upload": {
+            "required": true,
+            "acceptMime": [
+                "image/png",
+                "image/jpeg"
+            ],
+            "maxSizeMB": 5
+        }
+    },
+    {
+        "id": "stage-09",
+        "index": 9,
+        "item": {
+            "id": "book",
+            "name": "Buch",
+            "iconUrl": "/img/plushie_neutral.PNG"
+        },
+        "npcDialog": [
+            {
+                "id": "d1",
+                "text": "Ein wenig Code?"
+            }
+        ],
+        "question": {
+            "prompt": "Schreibe JSON mit einem key 'ok': true",
+            "input": {
+                "kind": "code",
+                "language": "json",
+                "maxLength": 120
+            },
+            "check": {
+                "mode": "regex",
+                "pattern": "\\{\\s*\\\"ok\\\"\\s*:\\s*true\\s*\\}"
+            }
+        },
+        "upload": {
+            "required": true,
+            "acceptMime": [
+                "image/png",
+                "image/jpeg"
+            ],
+            "maxSizeMB": 5
+        }
+    },
+    {
+        "id": "stage-10",
+        "index": 10,
+        "item": {
+            "id": "shield",
+            "name": "Schild",
+            "iconUrl": "/img/plushie_neutral.PNG"
+        },
+        "npcDialog": [
+            {
+                "id": "d1",
+                "text": "Rätselzeit!"
+            }
+        ],
+        "question": {
+            "prompt": "Regex: beginnt mit 'mc' und endet mit 'game'",
+            "input": {
+                "kind": "regex",
+                "description": "Gib ein Regex ein"
+            },
+            "check": {
+                "mode": "regex",
+                "pattern": "^mc.*game$",
+                "flags": "i"
+            }
+        },
+        "upload": {
+            "required": true,
+            "acceptMime": [
+                "image/png",
+                "image/jpeg"
+            ],
+            "maxSizeMB": 5
+        }
+    }
+]
