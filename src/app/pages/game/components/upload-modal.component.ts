@@ -15,7 +15,26 @@ import { CommonModule } from '@angular/common';
           </button>
         </div>
         <div class="content">
-          <input type="file" (change)="onSelect($event)" [accept]="acceptAttr" />
+          <ng-container *ngIf="!previewUrl">
+            <input
+              #fileInput
+              class="visually-hidden"
+              type="file"
+              (change)="onSelect($event)"
+              [accept]="acceptAttr"
+            />
+            <button
+              type="button"
+              class="upload-tile w-full"
+              (click)="fileInput.click()"
+              (keydown.enter)="fileInput.click()"
+              (keydown.space)="fileInput.click()"
+              aria-label="Bild auswählen"
+            >
+              <i class="pi pi-camera" aria-hidden="true"></i>
+              <span class="hint">Bild auswählen</span>
+            </button>
+          </ng-container>
           <div class="mt-3" *ngIf="error" style="color: var(--red-400,#ff5a5a)">{{ error }}</div>
           <div class="preview mt-3 border-round" *ngIf="previewUrl">
             <img [src]="previewUrl" alt="Vorschau" />
@@ -74,6 +93,51 @@ import { CommonModule } from '@angular/common';
         max-height: 90%;
         object-fit: contain;
         display: block;
+      }
+      .visually-hidden {
+        position: absolute !important;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+      .upload-tile {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        background: var(--surface-100, #2a2f3a);
+        color: var(--text-color, #e6e6e6);
+        border: 2px dashed var(--surface-400, #3a4150);
+        border-radius: 12px;
+        cursor: pointer;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.02s ease;
+        outline: none;
+      }
+      .upload-tile:hover,
+      .upload-tile:focus-visible {
+        border-color: var(--primary-400, #6ea8fe);
+        box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary-400, #6ea8fe) 30%, transparent);
+      }
+      .upload-tile:active {
+        transform: translateY(1px);
+      }
+      .upload-tile i.pi {
+        font-size: 3rem;
+        line-height: 1;
+        opacity: 0.9;
+      }
+      .upload-tile .hint {
+        font-size: 0.95rem;
+        opacity: 0.85;
+        text-align: center;
       }
     `,
   ],
