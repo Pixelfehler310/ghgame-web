@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { GameService } from '../../services/game.service';
 import { UploadService } from '../../services/upload.service';
 import {
+  BackendGameState,
   DialogChunk,
   GameConfig,
   GameState,
@@ -221,7 +222,54 @@ export class GameComponent implements OnInit, OnDestroy {
     this.loading.set(true);
     this.api.loadGame().subscribe({
       next: (res: any) => {
-        if (res?.state) this.state = res.state;
+        if (res?.state) {
+          const loaded = res.state as BackendGameState;
+
+          // After loading, step forward to the saved stage and rebuild inventory
+          let loadedStageIndex = Number((loaded as any).currentStageIndex);
+
+          console.warn(loadedStageIndex);
+
+          if (loadedStageIndex > this.config.totalStages || loadedStageIndex < 1) {
+            console.error('Invalid stage index:', loadedStageIndex);
+            loadedStageIndex = 1;
+          }
+
+          // Rebuild inventory and progress by replaying completed stages (1 .. loadedStageIndex-1)
+          let inventory: InventoryItemDef[] = [];
+          const progress: any = (loaded as any).progress || (this.state as any)?.progress || {};
+          for (let idx = 1; idx < loadedStageIndex; idx++) {
+            // Prefer lookup by Stage.index to decouple from array order
+            const stage = this.stages.find((s) => s.index === idx) ?? this.stages[idx - 1];
+            if (!stage) continue;
+            const item = stage.item as InventoryItemDef | undefined;
+            if (item && !inventory.find((it) => it.id === item.id)) {
+              inventory = [...inventory, item];
+            }
+            // Mark progress generically as completed for this stage (shape kept flexible)
+            progress[idx] = { ...(progress[idx] || {}), completed: true };
+          }
+
+          // Merge state and set current stage index to the loaded one
+          this.state = {
+            ...(this.state || {}),
+            ...(loaded as any),
+            inventory,
+            progress,
+            currentStageIndex: loadedStageIndex,
+            lastUpdatedISO: new Date().toISOString(),
+          } as GameState;
+
+          // Move UI to the saved stage (match by Stage.index; fallback to 1-based array position)
+          let targetIdx = this.stages.findIndex((s) => s.index === loadedStageIndex);
+          if (targetIdx < 0) {
+            targetIdx = Math.min(
+              Math.max(0, loadedStageIndex - 1),
+              Math.max(0, this.stages.length - 1)
+            );
+          }
+          this.setStageByIndex(targetIdx);
+        }
       },
       error: () => {},
       complete: () => this.loading.set(false),
@@ -383,7 +431,6 @@ export class GameComponent implements OnInit, OnDestroy {
     }
   }
 
-  // TODO make this for walk each stage so every previeous item gets added back in
   private setStageByIndex(idx: number) {
     this.currentStageIdx = idx;
     this.currentStage = this.stages[idx] || null;
@@ -410,7 +457,9 @@ export class GameComponent implements OnInit, OnDestroy {
   }
 
   private advanceStage() {
-    const nextIdx = this.currentStageIdx + 1;
+    if (!this.currentStage) return;
+
+    const nextIdx = this.currentStage?.index + 1;
     if (nextIdx < this.stages.length) {
       this.api.saveGame(nextIdx).subscribe({
         next: (saved) => {

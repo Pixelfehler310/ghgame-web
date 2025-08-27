@@ -188,8 +188,9 @@ export class HotbarComponent implements AfterViewInit, OnDestroy, OnChanges {
       }
       slots.push({ type: 'more', more: items.length - showItems });
     }
-
-    this.visibleSlots = slots;
+    Promise.resolve().then(() => {
+      this.visibleSlots = slots;
+    });
   };
 
   resolveIcon(item?: InventoryItemDef): string {
