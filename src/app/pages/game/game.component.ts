@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
 import { CommonModule, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { GameService } from '../../services/game.service';
+import { UploadService } from '../../services/upload.service';
 import {
   DialogChunk,
   GameConfig,
@@ -160,6 +161,7 @@ import { MessageService } from 'primeng/api';
 })
 export class GameComponent implements OnInit, OnDestroy {
   private readonly api = inject(GameService);
+  private readonly uploads = inject(UploadService);
   private readonly messageService = inject(MessageService);
 
   loading = signal(false);
@@ -182,10 +184,9 @@ export class GameComponent implements OnInit, OnDestroy {
   inlineMessageText: string | null = null;
   inlineSeverity: 'success' | 'info' | 'warn' | 'error' = 'info';
 
-  handleLoad(id: string) {
-    if (!id) return;
+  handleLoad() {
     this.loading.set(true);
-    this.api.loadGame(id).subscribe({
+    this.api.loadGame().subscribe({
       next: (res: any) => {
         if (res?.state) this.state = res.state;
       },
@@ -199,7 +200,7 @@ export class GameComponent implements OnInit, OnDestroy {
     this.config.totalStages = this.stages.length || this.config.totalStages;
     this.setStageByIndex(0);
     // Optionally load mocked state
-    this.handleLoad('demo123');
+    this.handleLoad();
     this.startCountdown();
   }
 
@@ -288,12 +289,11 @@ export class GameComponent implements OnInit, OnDestroy {
     this.showUpload = true;
   }
 
-  handleUploadSaved(file: File) {
-    // Mock: mark as uploaded; real impl would call GameService.uploadImage
-    console.log('upload saved', file?.name);
+  handleUploadSaved(url: string) {
+    // upload already completed in modal; just mark state and advance if needed
     this.hasUpload = true;
     this.showUpload = false;
-    // Auto-advance if this is an upload-only stage
+    this.showMessage('Bild hochgeladen.', 'success');
     if (this.currentStage?.question.input.kind === 'uploadOnly') {
       this.handleSubmit(null);
     }

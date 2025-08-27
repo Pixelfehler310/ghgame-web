@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { UploadService } from '../../../services/upload.service';
 
 @Component({
   selector: 'ghg-upload-modal',
@@ -36,15 +37,16 @@ import { CommonModule } from '@angular/common';
             </button>
           </ng-container>
           <div class="mt-3" *ngIf="error" style="color: var(--red-400,#ff5a5a)">{{ error }}</div>
-          <div class="preview mt-3 border-round" *ngIf="previewUrl">
-            <img [src]="previewUrl" alt="Vorschau" />
+          <div class="preview mt-3 border-round" *ngIf="previewUrl || uploadedUrl">
+            <img [src]="uploadedUrl || previewUrl!" alt="Vorschau" />
           </div>
+          <div class="mt-2" *ngIf="uploading">Lade hoch…</div>
         </div>
         <div class="footer mt-3">
           <button
             class="p-button p-component p-button-primary w-full"
             (click)="emitSave()"
-            [disabled]="!file"
+            [disabled]="!uploadedUrl || uploading"
           >
             Speichern
           </button>
@@ -145,12 +147,15 @@ import { CommonModule } from '@angular/common';
 export class UploadModalComponent {
   @Input() accept: string[] = ['image/png', 'image/jpeg'];
   @Input() maxSizeMB = 5;
-  @Output() save = new EventEmitter<File>();
+  @Output() save = new EventEmitter<string>();
   @Output() cancel = new EventEmitter<void>();
 
+  private readonly uploads = inject(UploadService);
   file: File | null = null;
   previewUrl: string | null = null;
   error: string | null = null;
+  uploading = false;
+  uploadedUrl: string | null = null;
 
   get acceptAttr() {
     return this.accept.join(',');
@@ -163,25 +168,45 @@ export class UploadModalComponent {
     if (!f) {
       this.file = null;
       this.previewUrl = null;
+      this.uploadedUrl = null;
       return;
     }
     if (!this.accept.includes(f.type)) {
       this.error = 'Ungültiger Dateityp';
       this.file = null;
       this.previewUrl = null;
+      this.uploadedUrl = null;
       return;
     }
     if (f.size > this.maxSizeMB * 1024 * 1024) {
       this.error = `Datei zu groß (max. ${this.maxSizeMB} MB)`;
       this.file = null;
       this.previewUrl = null;
+      this.uploadedUrl = null;
       return;
     }
     this.file = f;
     this.previewUrl = URL.createObjectURL(f);
+    this.startUpload(f);
   }
 
   emitSave() {
-    if (this.file) this.save.emit(this.file);
+    if (this.uploadedUrl) this.save.emit(this.uploadedUrl);
+  }
+
+  private startUpload(f: File) {
+    this.uploading = true;
+    this.uploads.uploadImage(f).subscribe({
+      next: ({ url }) => {
+        this.uploadedUrl = url;
+        this.error = null;
+        this.uploading = false;
+      },
+      error: (err) => {
+        console.error('Upload failed', err);
+        this.error = 'Upload fehlgeschlagen. Bitte erneut versuchen.';
+        this.uploading = false;
+      },
+    });
   }
 }
