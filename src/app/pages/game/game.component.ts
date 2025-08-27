@@ -341,12 +341,6 @@ export class GameComponent implements OnInit, OnDestroy {
           return false;
         }
       }
-      case 'coordinateWithin': {
-        const a = answer as any;
-        if (!a || typeof a.x !== 'number' || typeof a.y !== 'number') return false;
-        const r = check.rect;
-        return a.x >= r.minX && a.x <= r.maxX && a.y >= r.minY && a.y <= r.maxY;
-      }
       default:
         // Unsupported in prototype: treat as not correct to avoid skipping
         return false;
