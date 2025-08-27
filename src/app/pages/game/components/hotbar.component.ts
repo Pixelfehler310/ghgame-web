@@ -9,7 +9,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { InventoryItemDef } from '../../../models/game.models';
+import { InventoryItemDef, getItemIconSrc } from '../../../models/game.models';
 
 type HotbarSlot = { type: 'item'; item?: InventoryItemDef } | { type: 'more'; more: number };
 
@@ -31,8 +31,19 @@ type HotbarSlot = { type: 'item'; item?: InventoryItemDef } | { type: 'more'; mo
             "
             aria-selected="false"
           >
-            <span *ngIf="slot.type === 'item'">{{ slot.item?.name || 'Item' }}</span>
-            <span *ngIf="slot.type === 'more'">+{{ slot.more }}</span>
+            <ng-container *ngIf="slot.type === 'item'; else moreTpl">
+              <img
+                *ngIf="slot.item"
+                [src]="resolveIcon(slot.item)"
+                alt="Item Icon"
+                class="icon"
+                width="32"
+                height="32"
+              />
+            </ng-container>
+            <ng-template #moreTpl>
+              <span>+{{ getMore(slot) }}</span>
+            </ng-template>
           </div>
         </ng-container>
       </div>
@@ -79,6 +90,12 @@ type HotbarSlot = { type: 'item'; item?: InventoryItemDef } | { type: 'more'; mo
         position: absolute;
         visibility: hidden;
         pointer-events: none;
+      }
+      .icon {
+        width: 60%;
+        height: 60%;
+        object-fit: contain;
+        filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.25));
       }
     `,
   ],
@@ -174,4 +191,11 @@ export class HotbarComponent implements AfterViewInit, OnDestroy, OnChanges {
 
     this.visibleSlots = slots;
   };
+
+  resolveIcon(item?: InventoryItemDef): string {
+    return getItemIconSrc(item);
+  }
+  getMore(slot: HotbarSlot): number {
+    return slot.type === 'more' ? slot.more : 0;
+  }
 }

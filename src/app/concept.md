@@ -241,7 +241,7 @@ export type AnswerCheck =
 
 // Upload-Anforderung pro Stage
 export interface UploadRequirement {
-  required: true;
+  required: boolean;
   acceptMime: string[]; // ["image/png","image/jpeg"]
   maxSizeMB: number; // z.B. 5
   instructions?: string; // kurz im Modal anzeigen
@@ -257,7 +257,8 @@ export interface Stage {
   question: {
     prompt: string;
     input: QuestionInput;
-    check: AnswerCheck;
+    /** Optional: Bei 'uploadOnly' Stages gibt es keine Antwortvalidierung. */
+    check?: AnswerCheck;
     triesAllowed?: number; // default: unlimited
     hintAfterTries?: number; // z.B. nach 2 Versuchen Tipp anzeigen
     hintText?: string;

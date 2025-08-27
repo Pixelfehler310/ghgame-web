@@ -57,7 +57,7 @@ export type AnswerCheck =
 
 // Upload requirement per stage
 export interface UploadRequirement {
-  required: true;
+  required: boolean;
   acceptMime: string[]; // ["image/png","image/jpeg"]
   maxSizeMB: number; // e.g. 5
   instructions?: string; // brief text for modal
@@ -111,16 +111,70 @@ export interface GameState {
 
 // API response contracts
 export interface LoadGameResponse {
-  id: string;
   state: GameState;
 }
 
 export interface SaveGameResponse {
-  id: string;
   state: GameState;
   saved: boolean;
 }
 
 export interface UploadImageResponse {
   url: string;
+}
+
+// Centralized item catalogue and images (frontend assets)
+export const DEFAULT_ITEM_ICON = 'img/plushie_neutral.PNG';
+
+export enum ItemId {
+  WoodPickaxe = 'wood_pickaxe',
+  StonePickaxe = 'stone_pickaxe',
+  IronPickaxe = 'iron_pickaxe',
+  GoldPickaxe = 'gold_pickaxe',
+  DiamondPickaxe = 'diamond_pickaxe',
+  Map = 'map',
+  Clock = 'clock',
+  Compass = 'compass',
+  Book = 'book',
+  Shield = 'shield',
+}
+
+export const ITEM_DEFS: Record<ItemId, InventoryItemDef> = {
+  [ItemId.WoodPickaxe]: {
+    id: ItemId.WoodPickaxe,
+    name: 'Holzspitzhacke',
+    iconUrl: DEFAULT_ITEM_ICON,
+  },
+  [ItemId.StonePickaxe]: {
+    id: ItemId.StonePickaxe,
+    name: 'Steinspitzhacke',
+    iconUrl: DEFAULT_ITEM_ICON,
+  },
+  [ItemId.IronPickaxe]: {
+    id: ItemId.IronPickaxe,
+    name: 'Eisenspitzhacke',
+    iconUrl: DEFAULT_ITEM_ICON,
+  },
+  [ItemId.GoldPickaxe]: {
+    id: ItemId.GoldPickaxe,
+    name: 'Goldspitzhacke',
+    iconUrl: DEFAULT_ITEM_ICON,
+  },
+  [ItemId.DiamondPickaxe]: {
+    id: ItemId.DiamondPickaxe,
+    name: 'Diamantspitzhacke',
+    iconUrl: DEFAULT_ITEM_ICON,
+  },
+  [ItemId.Map]: { id: ItemId.Map, name: 'Karte', iconUrl: DEFAULT_ITEM_ICON },
+  [ItemId.Clock]: { id: ItemId.Clock, name: 'Uhr', iconUrl: DEFAULT_ITEM_ICON },
+  [ItemId.Compass]: { id: ItemId.Compass, name: 'Kompass', iconUrl: DEFAULT_ITEM_ICON },
+  [ItemId.Book]: { id: ItemId.Book, name: 'Buch', iconUrl: DEFAULT_ITEM_ICON },
+  [ItemId.Shield]: { id: ItemId.Shield, name: 'Schild', iconUrl: DEFAULT_ITEM_ICON },
+};
+
+export function getItemIconSrc(item?: Partial<InventoryItemDef> | null): string {
+  if (!item) return DEFAULT_ITEM_ICON;
+  if (item.iconUrl) return item.iconUrl;
+  const byId = (ITEM_DEFS as any)[item.id as ItemId] as InventoryItemDef | undefined;
+  return byId?.iconUrl || DEFAULT_ITEM_ICON;
 }

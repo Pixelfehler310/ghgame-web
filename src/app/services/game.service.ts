@@ -15,10 +15,8 @@ const USE_MOCK = true; // toggle to false to hit real backend later
 export class GameService {
   private readonly http = inject(HttpClient);
 
-  // simple in-memory mock store using new GameState shape
-  private mockDb: Record<string, GameState> = {
-    demo123: this.defaultState(),
-  };
+  // simple in-memory mock store using new GameState shape (single global entry)
+  private mockState: GameState = this.defaultState();
 
   private defaultState(): GameState {
     return {
@@ -29,20 +27,21 @@ export class GameService {
     };
   }
 
-  loadGame(id: string): Observable<LoadGameResponse> {
+  loadGame(_id: string): Observable<LoadGameResponse> {
     if (USE_MOCK) {
-      const state = this.mockDb[id] ?? this.defaultState();
-      return of({ id, state }).pipe(delay(300));
+      const state = this.mockState ?? this.defaultState();
+      return of({ state }).pipe(delay(300));
     }
-    return this.http.get<LoadGameResponse>(`${API_BASE}/loadGame`, { params: { id } });
+    // TODO Build the state based on the stageDef.ts file
+    // TODO stageDef.ts file
+    return this.http.get<LoadGameResponse>(`${API_BASE}/loadGame`);
   }
 
   saveGame(state: GameState): Observable<SaveGameResponse> {
     if (USE_MOCK) {
-      const id = 'demo123';
       const saved: GameState = { ...state, lastUpdatedISO: new Date().toISOString() };
-      this.mockDb[id] = saved;
-      return of({ id, state: saved, saved: true }).pipe(delay(300));
+      this.mockState = saved;
+      return of({ state: saved, saved: true }).pipe(delay(300));
     }
     return this.http.post<SaveGameResponse>(`${API_BASE}/saveGame`, state);
   }
