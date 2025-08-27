@@ -106,7 +106,7 @@
       }
     },
     "upload": {
-      "required": false,
+      "required": true,
       "acceptMime": [
         "image/png",
         "image/jpeg"

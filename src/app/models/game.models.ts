@@ -69,6 +69,8 @@ export interface Stage {
   index: number; // 1-based
   item: InventoryItemDef; // reward item
   title?: string; // optional story title
+  /** Optional human readable location name (from data.csv LOCATION). */
+  locationName?: string;
   npcDialog: DialogChunk[]; // story + question
   question: {
     prompt: string;
@@ -81,6 +83,8 @@ export interface Stage {
   };
   upload: UploadRequirement;
   assets?: { itemImage?: string; background?: string };
+  /** Optional maps link for this stage/location (from data.csv KOORDINATEN). */
+  mapUrl?: string;
 }
 
 // Runtime state

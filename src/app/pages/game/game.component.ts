@@ -11,7 +11,8 @@ import {
   QuestionInput,
   Stage,
 } from '../../models/game.models';
-import stagesData from './stages.mock2.json';
+import STAGES_DATA from './stages.data';
+import { getItemIconSrc } from '../../models/game.models';
 import { SpeechBubbleComponent } from './components/speech-bubble.component';
 import { ItemHeroComponent } from './components/item-hero.component';
 import { StageFormComponent } from './components/stage-form.component';
@@ -79,8 +80,8 @@ import { MessageService } from 'primeng/api';
 
         <ghg-upload-modal
           *ngIf="showUpload"
-          [accept]="['image/png', 'image/jpeg']"
-          [maxSizeMB]="5"
+          [accept]="currentStage?.upload?.acceptMime || ['image/png', 'image/jpeg']"
+          [maxSizeMB]="currentStage?.upload?.maxSizeMB || 5"
           (save)="handleUploadSaved($event)"
           (cancel)="showUpload = false"
         ></ghg-upload-modal>
@@ -127,7 +128,6 @@ import { MessageService } from 'primeng/api';
 
       .content-center {
         width: 100%;
-        margin: 72px auto 0; /* leave room for HUD */
         padding: 0 1rem;
       }
       .stack {
@@ -149,7 +149,7 @@ import { MessageService } from 'primeng/api';
           height: 1rem;
         }
         .content-center {
-          max-width: 60vw; /* leaves ~20% margins on each side for large screens */
+          max-width: 75vw; /* leaves ~12,5% margins on each side for large screens */
         }
       }
       /* hotbar styles moved into ghg-hotbar */
@@ -170,7 +170,7 @@ export class GameComponent implements OnInit, OnDestroy {
   countdown = '00:00:00:00'; // dd:hh:mm:ss
   private countdownTimer: any;
   npcAvatarUrl = 'img/plushie_neutral.PNG';
-  stages: Stage[] = (stagesData as unknown as Stage[]) || [];
+  stages: Stage[] = STAGES_DATA || [];
   currentStage: Stage | null = null;
   currentStageIdx = 0;
   dialogMessages: DialogChunk[] = [];
@@ -352,7 +352,10 @@ export class GameComponent implements OnInit, OnDestroy {
     this.currentStage = this.stages[idx] || null;
     if (this.currentStage) {
       this.dialogMessages = this.currentStage.npcDialog;
-      this.itemImageUrl = this.currentStage.item.iconUrl || 'img/plushie_neutral.PNG';
+      this.itemImageUrl =
+        this.currentStage.assets?.itemImage ||
+        getItemIconSrc(this.currentStage.item) ||
+        'img/plushie_neutral.PNG';
       this.itemName = this.currentStage.item.name;
       this.formSchema = this.currentStage.question.input as QuestionInput;
       this.hasUpload = false;
