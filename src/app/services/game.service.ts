@@ -1,7 +1,12 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, delay } from 'rxjs';
-import { GameState, LoadGameResponse, SaveGameResponse } from '../models/game.models';
+import {
+  BackendGameState,
+  GameState,
+  LoadGameResponse,
+  SaveGameResponse,
+} from '../models/game.models';
 
 const API_BASE = 'https://ghgame-backend-fqheahc6b3efb7ek.francecentral-01.azurewebsites.net/api';
 const USE_MOCK = false; // toggle to false to hit real backend later
@@ -33,13 +38,14 @@ export class GameService {
     return this.http.get<LoadGameResponse>(`${API_BASE}/loadGame`);
   }
 
-  saveGame(state: GameState): Observable<SaveGameResponse> {
+  saveGame(stageIdx: number): Observable<SaveGameResponse> {
     if (USE_MOCK) {
-      const saved: GameState = { ...state, lastUpdatedISO: new Date().toISOString() };
-      this.mockState = saved;
-      return of({ state: saved, saved: true }).pipe(delay(300));
+      return of({ state: this.defaultState(), saved: true }).pipe(delay(300));
     }
-    return this.http.post<SaveGameResponse>(`${API_BASE}/saveGame`, state);
+    console.warn('Saving Game');
+
+    const currentState: BackendGameState = { currentStageIndex: stageIdx };
+    return this.http.post<SaveGameResponse>(`${API_BASE}/saveGame`, currentState);
   }
 
   // Image upload moved to UploadService

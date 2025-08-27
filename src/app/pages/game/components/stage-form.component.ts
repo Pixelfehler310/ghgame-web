@@ -213,6 +213,7 @@ import { SelectModule } from 'primeng/select';
               [showClear]="true"
               [placeholder]="$any(inputSchema)?.placeholder || 'Option wählen'"
               [style]="{ width: '100%', flex: '1 1 0', minWidth: '0' }"
+              appendTo="body"
               class="w-full"
               [ngClass]="{ 'p-invalid': f.submitted && !model }"
             ></p-select>

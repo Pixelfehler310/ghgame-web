@@ -1,13 +1,17 @@
-import { DEFAULT_ITEM_ICON, Stage } from '../../models/game.models';
+import { Stage } from '../../models/game.models';
 
 // Helper to convert item names to lowercase underscore keys
-const toKey = (name: string) => name.toLowerCase().replace(/\s+/g, '_');
+const toKey = (name: string) => 'item/' + name.toLowerCase().replace(/\s+/g, '_');
 
 export const STAGES_DATA: Stage[] = [
   {
     id: 'stage-01',
     index: 1,
-    item: { id: toKey('Oak Leaves'), name: 'Oak Leaves', iconUrl: DEFAULT_ITEM_ICON },
+    item: {
+      id: toKey('Oak Leaves'),
+      name: 'Oak Leaves',
+      iconUrl: `/img/${toKey('Oak Leaves')}.png`,
+    },
     title: 'Parque Eduardo VII',
     locationName: 'Parque Eduardo VII',
     npcDialog: [
@@ -28,7 +32,11 @@ export const STAGES_DATA: Stage[] = [
   {
     id: 'stage-02',
     index: 2,
-    item: { id: toKey('Honey Bottle'), name: 'Honey Bottle', iconUrl: DEFAULT_ITEM_ICON },
+    item: {
+      id: toKey('Honey Bottle'),
+      name: 'Honey Bottle',
+      iconUrl: `/img/${toKey('Honey Bottle')}.png`,
+    },
     title: 'Biene LX Factory',
     locationName: 'Biene LX Factory',
     npcDialog: [
@@ -48,7 +56,7 @@ export const STAGES_DATA: Stage[] = [
   {
     id: 'stage-03',
     index: 3,
-    item: { id: toKey('Elytra'), name: 'Elytra', iconUrl: DEFAULT_ITEM_ICON },
+    item: { id: toKey('Elytra'), name: 'Elytra', iconUrl: `/img/${toKey('Elytra')}.png` },
     title: 'Bücherei Le Devagar Fahrrad',
     locationName: 'Bücherei Le Devagar Fahrrad',
     npcDialog: [
@@ -76,7 +84,11 @@ export const STAGES_DATA: Stage[] = [
   {
     id: 'stage-04',
     index: 4,
-    item: { id: toKey('Glass Pane'), name: 'Glass Pane', iconUrl: DEFAULT_ITEM_ICON },
+    item: {
+      id: toKey('Glass Pane'),
+      name: 'Glass Pane',
+      iconUrl: `/img/${toKey('Glass Pane')}.png`,
+    },
     title: 'Village Underground',
     locationName: 'Village Underground',
     npcDialog: [
@@ -97,7 +109,11 @@ export const STAGES_DATA: Stage[] = [
   {
     id: 'stage-05',
     index: 5,
-    item: { id: toKey('Stone Sword'), name: 'Stone Sword', iconUrl: DEFAULT_ITEM_ICON },
+    item: {
+      id: toKey('Stone Sword'),
+      name: 'Stone Sword',
+      iconUrl: `/img/${toKey('Stone Sword')}.png`,
+    },
     title: 'PADRÃO Dos Descobrimentos',
     locationName: 'PADRÃO Dos Descobrimentos',
     npcDialog: [
@@ -125,7 +141,7 @@ export const STAGES_DATA: Stage[] = [
   {
     id: 'stage-06',
     index: 6,
-    item: { id: toKey('Boat'), name: 'Boat', iconUrl: DEFAULT_ITEM_ICON },
+    item: { id: toKey('Boat'), name: 'Boat', iconUrl: `/img/${toKey('Boat')}.png` },
     title: 'Promenade',
     locationName: 'Promenade',
     npcDialog: [
@@ -142,7 +158,11 @@ export const STAGES_DATA: Stage[] = [
   {
     id: 'stage-07',
     index: 7,
-    item: { id: toKey('Birch Sapling'), name: 'Birch Sapling', iconUrl: DEFAULT_ITEM_ICON },
+    item: {
+      id: toKey('Birch Sapling'),
+      name: 'Birch Sapling',
+      iconUrl: `/img/${toKey('Birch Sapling')}.png`,
+    },
     title: 'Green Street',
     locationName: 'Green Street',
     npcDialog: [
@@ -159,7 +179,7 @@ export const STAGES_DATA: Stage[] = [
   {
     id: 'stage-08',
     index: 8,
-    item: { id: toKey('Diamond'), name: 'Diamond', iconUrl: DEFAULT_ITEM_ICON },
+    item: { id: toKey('Diamond'), name: 'Diamond', iconUrl: `/img/${toKey('Diamond')}.png` },
     title: 'Bordallo 2 Fuchs',
     locationName: 'Bordallo 2 Fuchs',
     npcDialog: [
@@ -176,7 +196,7 @@ export const STAGES_DATA: Stage[] = [
   {
     id: 'stage-09',
     index: 9,
-    item: { id: toKey('Apple'), name: 'Apple', iconUrl: DEFAULT_ITEM_ICON },
+    item: { id: toKey('Apple'), name: 'Apple', iconUrl: `/img/${toKey('Apple')}.png` },
     title: 'Mercado de Ribeira',
     locationName: 'Mercado de Ribeira',
     npcDialog: [
@@ -193,7 +213,11 @@ export const STAGES_DATA: Stage[] = [
   {
     id: 'stage-10',
     index: 10,
-    item: { id: toKey('Pink Concrete'), name: 'Pink Concrete', iconUrl: DEFAULT_ITEM_ICON },
+    item: {
+      id: toKey('Pink Concrete'),
+      name: 'Pink Concrete',
+      iconUrl: `/img/${toKey('Pink Concrete')}.png`,
+    },
     title: 'Pink Street Tunnel',
     locationName: 'Pink Street Tunnel',
     npcDialog: [
@@ -221,7 +245,11 @@ export const STAGES_DATA: Stage[] = [
   {
     id: 'stage-11',
     index: 11,
-    item: { id: toKey('Copper Ingot'), name: 'Copper Ingot', iconUrl: DEFAULT_ITEM_ICON },
+    item: {
+      id: toKey('Copper Ingot'),
+      name: 'Copper Ingot',
+      iconUrl: `/img/${toKey('Copper Ingot')}.png`,
+    },
     title: 'La Brasiliera',
     locationName: 'La Brasiliera',
     npcDialog: [
@@ -242,7 +270,7 @@ export const STAGES_DATA: Stage[] = [
   {
     id: 'stage-12',
     index: 12,
-    item: { id: toKey('Rail'), name: 'Rail', iconUrl: DEFAULT_ITEM_ICON },
+    item: { id: toKey('Rail'), name: 'Rail', iconUrl: `/img/${toKey('Rail')}.png` },
     title: 'Fabrica de Nata',
     locationName: 'Fabrica de Nata',
     npcDialog: [
@@ -271,7 +299,7 @@ export const STAGES_DATA: Stage[] = [
   {
     id: 'stage-13',
     index: 13,
-    item: { id: toKey('Lore'), name: 'Lore', iconUrl: DEFAULT_ITEM_ICON },
+    item: { id: toKey('Lore'), name: 'Lore', iconUrl: `/img/${toKey('Lore')}.png` },
     title: 'Line 28/…',
     locationName: 'Line 28/…',
     npcDialog: [
@@ -288,7 +316,11 @@ export const STAGES_DATA: Stage[] = [
   {
     id: 'stage-14',
     index: 14,
-    item: { id: toKey('Diorite Wall'), name: 'Diorite Wall', iconUrl: DEFAULT_ITEM_ICON },
+    item: {
+      id: toKey('Diorite Wall'),
+      name: 'Diorite Wall',
+      iconUrl: `/img/${toKey('Diorite Wall')}.png`,
+    },
     title: 'Sao Vicente de Fora Kloster',
     locationName: 'Sao Vicente de Fora Kloster',
     npcDialog: [
@@ -309,7 +341,7 @@ export const STAGES_DATA: Stage[] = [
   {
     id: 'stage-15',
     index: 15,
-    item: { id: toKey('Vines'), name: 'Vines', iconUrl: DEFAULT_ITEM_ICON },
+    item: { id: toKey('Vines'), name: 'Vines', iconUrl: `/img/${toKey('Vines')}.png` },
     title: 'Bemalter Tunnel',
     locationName: 'Bemalter Tunnel',
     npcDialog: [
@@ -330,7 +362,7 @@ export const STAGES_DATA: Stage[] = [
   {
     id: 'stage-16',
     index: 16,
-    item: { id: toKey('Banner'), name: 'Banner', iconUrl: DEFAULT_ITEM_ICON },
+    item: { id: toKey('Banner'), name: 'Banner', iconUrl: `/img/${toKey('Banner')}.png` },
     title: 'Largo do intendente Haus',
     locationName: 'Largo do intendente Haus',
     npcDialog: [
@@ -355,7 +387,11 @@ export const STAGES_DATA: Stage[] = [
   {
     id: 'stage-17',
     index: 17,
-    item: { id: toKey('Music Disc'), name: 'Music Disc', iconUrl: DEFAULT_ITEM_ICON },
+    item: {
+      id: toKey('Music Disc'),
+      name: 'Music Disc',
+      iconUrl: `/img/${toKey('Music Disc')}.png`,
+    },
     title: 'Fiera da ladra',
     locationName: 'Fiera da ladra',
     npcDialog: [
@@ -372,7 +408,11 @@ export const STAGES_DATA: Stage[] = [
   {
     id: 'stage-18',
     index: 18,
-    item: { id: toKey('Purpur Block'), name: 'Purpur Block', iconUrl: DEFAULT_ITEM_ICON },
+    item: {
+      id: toKey('Purpur Block'),
+      name: 'Purpur Block',
+      iconUrl: `/img/${toKey('Purpur Block')}.png`,
+    },
     title: 'Tile Wall fiera da ladra',
     locationName: 'Tile Wall fiera da ladra',
     npcDialog: [
@@ -393,7 +433,7 @@ export const STAGES_DATA: Stage[] = [
   {
     id: 'stage-19',
     index: 19,
-    item: { id: toKey('Peony'), name: 'Peony', iconUrl: DEFAULT_ITEM_ICON },
+    item: { id: toKey('Peony'), name: 'Peony', iconUrl: `/img/${toKey('Peony')}.png` },
     title: 'Casa Sao Miguel',
     locationName: 'Casa Sao Miguel',
     npcDialog: [
@@ -414,7 +454,11 @@ export const STAGES_DATA: Stage[] = [
   {
     id: 'stage-20',
     index: 20,
-    item: { id: toKey('Resin Brick Slab'), name: 'Resin Brick Slab', iconUrl: DEFAULT_ITEM_ICON },
+    item: {
+      id: toKey('Resin Brick Slab'),
+      name: 'Resin Brick Slab',
+      iconUrl: `/img/${toKey('Resin Brick Slab')}.png`,
+    },
     title: 'Miradouro de Santa Luzia',
     locationName: 'Miradouro de Santa Luzia',
     npcDialog: [
@@ -435,7 +479,7 @@ export const STAGES_DATA: Stage[] = [
   {
     id: 'stage-21',
     index: 21,
-    item: { id: toKey('Bone Meal'), name: 'Bone Meal', iconUrl: DEFAULT_ITEM_ICON },
+    item: { id: toKey('Bone Meal'), name: 'Bone Meal', iconUrl: `/img/${toKey('Bone Meal')}.png` },
     title: 'Flower Wall Museum saint anthony',
     locationName: 'Flower Wall Museum saint anthony',
     npcDialog: [
@@ -452,7 +496,11 @@ export const STAGES_DATA: Stage[] = [
   {
     id: 'stage-22',
     index: 22,
-    item: { id: toKey('Quartz Pillar'), name: 'Quartz Pillar', iconUrl: DEFAULT_ITEM_ICON },
+    item: {
+      id: toKey('Quartz Pillar'),
+      name: 'Quartz Pillar',
+      iconUrl: `/img/${toKey('Quartz Pillar')}.png`,
+    },
     title: 'Arco da Rua augusta',
     locationName: 'Arco da Rua augusta',
     npcDialog: [
@@ -473,7 +521,11 @@ export const STAGES_DATA: Stage[] = [
   {
     id: 'stage-23',
     index: 23,
-    item: { id: toKey('Acacia Door'), name: 'Acacia Door', iconUrl: DEFAULT_ITEM_ICON },
+    item: {
+      id: toKey('Acacia Door'),
+      name: 'Acacia Door',
+      iconUrl: `/img/${toKey('Acacia Door')}.png`,
+    },
     title: 'Tür Abel Pereira da Fonseca',
     locationName: 'Tür Abel Pereira da Fonseca',
     npcDialog: [
@@ -497,7 +549,7 @@ export const STAGES_DATA: Stage[] = [
     item: {
       id: toKey('Light Blue Glazed Terracotta'),
       name: 'Light Blue Glazed Terracotta',
-      iconUrl: DEFAULT_ITEM_ICON,
+      iconUrl: `/img/${toKey('Light Blue Glazed Terracotta')}.png`,
     },
     title: 'Palace de Marquesses',
     locationName: 'Palace de Marquesses',

@@ -114,12 +114,18 @@ export interface GameState {
 }
 
 // API response contracts
+export interface BackendGameState {
+  currentStageIndex: number; // 1..totalStages
+  lastUpdatedISO?: string;
+}
+
+// API response contracts
 export interface LoadGameResponse {
-  state: GameState;
+  state: BackendGameState;
 }
 
 export interface SaveGameResponse {
-  state: GameState;
+  state: BackendGameState;
   saved: boolean;
 }
 

@@ -139,7 +139,7 @@ import { MessageService } from 'primeng/api';
         overflow: hidden; /* child scroll will handle overflow */
         display: flex;
         align-items: stretch;
-        max-height: calc(100vh - 120px); /* prevent overflow on very small viewports */
+        max-height: calc(100vh - 130px); /* prevent overflow on very small viewports */
       }
 
       .stack {
@@ -299,15 +299,18 @@ export class GameComponent implements OnInit, OnDestroy {
       return;
     }
     // Success: add item (once) then advance
-    if (!this.state) {
-      this.state = {
-        currentStageIndex: this.currentStage.index,
-        inventory: [],
-        progress: {},
-        lastUpdatedISO: new Date().toISOString(),
-      } as GameState;
-    }
+    const newState = {
+      currentStageIndex: this.currentStage.index,
+      inventory: [],
+      progress: {},
+      lastUpdatedISO: new Date().toISOString(),
+      ...this.state,
+    };
+    this.state = newState;
+
     const item = this.currentStage.item;
+    console.warn(this.state);
+
     if (!this.state.inventory.find((it) => it.id === item.id)) {
       this.state.inventory = [...this.state.inventory, item as InventoryItemDef];
     }
@@ -380,6 +383,7 @@ export class GameComponent implements OnInit, OnDestroy {
     }
   }
 
+  // TODO make this for walk each stage so every previeous item gets added back in
   private setStageByIndex(idx: number) {
     this.currentStageIdx = idx;
     this.currentStage = this.stages[idx] || null;
@@ -408,9 +412,19 @@ export class GameComponent implements OnInit, OnDestroy {
   private advanceStage() {
     const nextIdx = this.currentStageIdx + 1;
     if (nextIdx < this.stages.length) {
-      this.setStageByIndex(nextIdx);
+      this.api.saveGame(nextIdx).subscribe({
+        next: (saved) => {
+          console.warn('Save response', saved);
+          this.showMessage('Erfolgreich gespeichert.', 'success');
+          this.setStageByIndex(nextIdx);
+        },
+        error: () => {
+          this.showMessage('Speichern fehlgeschlagen.', 'error');
+          this.setStageByIndex(nextIdx);
+        },
+      });
     } else {
-      alert('Alle Mock-Stages abgeschlossen!');
+      alert('Yay du hast es geschafft!');
     }
   }
 
