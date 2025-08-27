@@ -41,42 +41,54 @@ import { MessageService } from 'primeng/api';
       <div class="game-container">
         <!-- Toast container for top-right messages -->
         <p-toast position="top-right"></p-toast>
-        <!-- HUD in corners -->
-        <div class="hud">
-          <div class="hud-left">
-            <strong>{{ state?.currentStageIndex || 1 }}/{{ config.totalStages }}</strong>
+
+        <!-- Overall layout: header, content (grows), footer/hotbar -->
+        <div class="game-inner">
+          <header class="game-header" role="banner">
+            <div class="header-left">
+              <strong>{{ state?.currentStageIndex || 1 }}/{{ config.totalStages }}</strong>
+            </div>
+            <div class="header-right">
+              <strong role="timer" aria-live="polite">{{ countdown }}</strong>
+            </div>
+          </header>
+
+          <div class="game-content">
+            <div class="stack">
+              <ghg-item-hero [imageUrl]="itemImageUrl" [name]="itemName"></ghg-item-hero>
+
+              <!-- content-body holds the speech bubble (flex grow and scroll) and the form -->
+              <div class="content-body">
+                <div class="speech-area">
+                  <ghg-speech-bubble
+                    [avatarUrl]="npcAvatarUrl"
+                    [messages]="dialogMessages"
+                    [question]="currentStage?.question?.prompt"
+                  ></ghg-speech-bubble>
+                </div>
+
+                <div class="gap-below-bubble"></div>
+
+                <ghg-stage-form
+                  [inputSchema]="formSchema"
+                  [uploadRequired]="!!currentStage?.upload?.required"
+                  [uploaded]="hasUpload"
+                  [inlineMessageText]="inlineMessageMode ? inlineMessageText : null"
+                  [inlineSeverity]="inlineMessageMode ? inlineSeverity : 'info'"
+                  (submitted)="handleSubmit($event)"
+                  (openUpload)="handleOpenUpload()"
+                ></ghg-stage-form>
+              </div>
+            </div>
           </div>
-          <div class="hud-right">
-            <strong role="timer" aria-live="polite">{{ countdown }}</strong>
-          </div>
+
+          <footer class="game-footer">
+            <ghg-hotbar
+              [items]="state?.inventory || []"
+              [hardCap]="config.hotbarSlots"
+            ></ghg-hotbar>
+          </footer>
         </div>
-
-        <div class="content-center">
-          <div class="stack">
-            <ghg-item-hero [imageUrl]="itemImageUrl" [name]="itemName"></ghg-item-hero>
-
-            <!-- TODO messages via prime ng message service + p toast? -->
-            <ghg-speech-bubble
-              [avatarUrl]="npcAvatarUrl"
-              [messages]="dialogMessages"
-              [question]="currentStage?.question?.prompt"
-            ></ghg-speech-bubble>
-
-            <div class="gap-below-bubble"></div>
-
-            <ghg-stage-form
-              [inputSchema]="formSchema"
-              [uploadRequired]="!!currentStage?.upload?.required"
-              [uploaded]="hasUpload"
-              [inlineMessageText]="inlineMessageMode ? inlineMessageText : null"
-              [inlineSeverity]="inlineMessageMode ? inlineSeverity : 'info'"
-              (submitted)="handleSubmit($event)"
-              (openUpload)="handleOpenUpload()"
-            ></ghg-stage-form>
-          </div>
-        </div>
-
-        <ghg-hotbar [items]="state?.inventory || []" [hardCap]="config.hotbarSlots"></ghg-hotbar>
 
         <ghg-upload-modal
           *ngIf="showUpload"
@@ -85,62 +97,81 @@ import { MessageService } from 'primeng/api';
           (save)="handleUploadSaved($event)"
           (cancel)="showUpload = false"
         ></ghg-upload-modal>
-
-        <!-- Spacer so content doesn’t sit under the fixed hotbar -->
-        <div class="bottom-spacer" aria-hidden="true"></div>
       </div>
     </section>
   `,
   styles: [
     `
+      /* Full-height column layout: header, content, footer */
       .game-container {
         max-width: 100%;
         margin: 0 auto;
-        padding: 1rem;
-      }
-      /* HUD pinned to corners */
-      .hud {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 48px;
-        pointer-events: none;
-        z-index: 20;
-      }
-      .hud-left,
-      .hud-right {
-        position: absolute;
-        top: 8px;
-        padding: 6px 10px;
-        color: var(--muted);
-        font-variant-numeric: tabular-nums;
-        background: rgba(26, 31, 41, 0.5);
-        border: 1px solid rgba(148, 163, 184, 0.18);
-        border-radius: var(--radius-ui);
-      }
-      .hud-left {
-        left: 8px;
-      }
-      .hud-right {
-        right: 8px;
+        padding: 0; /* handled per area */
+        height: 100vh; /* fill viewport */
+        display: flex;
+        align-items: stretch;
       }
 
-      .content-center {
+      .game-inner {
+        display: flex;
+        flex-direction: column;
+        flex: 1 1 auto;
         width: 100%;
-        padding: 0 1rem;
       }
+
+      .game-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.75rem 1rem;
+        gap: 1rem;
+        color: var(--muted);
+        background: rgba(26, 31, 41, 0.05);
+        border-bottom: 1px solid rgba(148, 163, 184, 0.06);
+        font-variant-numeric: tabular-nums;
+      }
+
+      .game-content {
+        /* this region grows to fill available space between header and footer */
+        flex: 1 1 auto;
+        min-height: 0; /* allow children to shrink for overflow handling */
+        padding: 1rem;
+        overflow: hidden; /* child scroll will handle overflow */
+        display: flex;
+        align-items: stretch;
+        max-height: calc(100vh - 120px); /* prevent overflow on very small viewports */
+      }
+
       .stack {
         display: flex;
         flex-direction: column;
         align-items: center;
+        width: 100%;
       }
-      .stack > * + * {
-        margin-top: 1rem;
+
+      /* content-body holds the speech bubble (flexible) and the form */
+      .content-body {
+        display: flex;
+        flex-direction: column;
+        flex: 1 1 auto;
+        min-height: 0; /* important for children overflow */
+        width: 100%;
+        align-items: center;
       }
+
+      .speech-area {
+        flex: 1 1 auto;
+        min-height: 0; /* allow overflow correctly inside flex */
+        width: 100%;
+        overflow: auto; /* scroll when speech bubble content exceeds available height */
+        display: flex;
+        justify-content: center;
+      }
+
       .gap-below-bubble {
         height: 0.75rem;
       }
+
       @media (min-width: 1024px) {
         .stack > * + * {
           margin-top: 1.25rem;
@@ -148,13 +179,15 @@ import { MessageService } from 'primeng/api';
         .gap-below-bubble {
           height: 1rem;
         }
-        .content-center {
+        .game-content {
           max-width: 75vw; /* leaves ~12,5% margins on each side for large screens */
+          margin: 0 auto;
         }
       }
-      /* hotbar styles moved into ghg-hotbar */
-      .bottom-spacer {
-        height: 88px;
+
+      .game-footer {
+        border-top: 1px solid rgba(148, 163, 184, 0.06);
+        padding: 0.5rem 1rem;
       }
     `,
   ],
