@@ -27,7 +27,7 @@ export const STAGES_DATA: Stage[] = [
     },
     upload: { required: false, acceptMime: ['image/png', 'image/jpeg'], maxSizeMB: 5 },
     assets: { itemImage: `/img/${toKey('Oak Leaves')}.png` },
-    mapUrl: 'http://example.com/image/0',
+    mapUrl: 'https://maps.app.goo.gl/ET2FRwZ7tmcZtoA19?g_st=ic',
   },
   {
     id: 'stage-02',
@@ -51,7 +51,7 @@ export const STAGES_DATA: Stage[] = [
     },
     upload: { required: true, acceptMime: ['image/png', 'image/jpeg'], maxSizeMB: 5 },
     assets: { itemImage: `/img/${toKey('Honey Bottle')}.png` },
-    mapUrl: 'http://example.com/image/1',
+    mapUrl: 'https://maps.app.goo.gl/1A4Se6w57v2g5KuJ9?g_st=ic',
   },
   {
     id: 'stage-03',
@@ -79,7 +79,7 @@ export const STAGES_DATA: Stage[] = [
     },
     upload: { required: false, acceptMime: ['image/png', 'image/jpeg'], maxSizeMB: 5 },
     assets: { itemImage: `/img/${toKey('Elytra')}.png` },
-    mapUrl: 'http://example.com/image/2',
+    mapUrl: 'https://maps.app.goo.gl/rFZnsjQpzFLDeWP16?g_st=ic',
   },
   {
     id: 'stage-04',
@@ -104,7 +104,7 @@ export const STAGES_DATA: Stage[] = [
     },
     upload: { required: false, acceptMime: ['image/png', 'image/jpeg'], maxSizeMB: 5 },
     assets: { itemImage: `/img/${toKey('Glass Pane')}.png` },
-    mapUrl: 'http://example.com/image/6',
+    mapUrl: 'https://maps.app.goo.gl/GMQeYrH1MqNc7k1D7?g_st=ic',
   },
   {
     id: 'stage-05',
@@ -136,7 +136,7 @@ export const STAGES_DATA: Stage[] = [
     },
     upload: { required: false, acceptMime: ['image/png', 'image/jpeg'], maxSizeMB: 5 },
     assets: { itemImage: `/img/${toKey('Stone Sword')}.png` },
-    mapUrl: 'http://example.com/image/7',
+    mapUrl: 'https://maps.app.goo.gl/K2Xsgfphu4FzhaaH8?g_st=ic',
   },
   {
     id: 'stage-06',
@@ -153,7 +153,7 @@ export const STAGES_DATA: Stage[] = [
     question: { prompt: 'Lade ein Beweisfoto hoch.', input: { kind: 'uploadOnly' } },
     upload: { required: true, acceptMime: ['image/png', 'image/jpeg'], maxSizeMB: 5 },
     assets: { itemImage: `/img/${toKey('Boat')}.png` },
-    mapUrl: 'http://example.com/image/8',
+    mapUrl: 'https://maps.app.goo.gl/PDnGvLmN8UJppwQA6?g_st=ic',
   },
   {
     id: 'stage-07',
@@ -174,7 +174,7 @@ export const STAGES_DATA: Stage[] = [
     question: { prompt: 'Lade ein Beweisfoto hoch.', input: { kind: 'uploadOnly' } },
     upload: { required: true, acceptMime: ['image/png', 'image/jpeg'], maxSizeMB: 5 },
     assets: { itemImage: `/img/${toKey('Birch Sapling')}.png` },
-    mapUrl: 'http://example.com/image/9',
+    mapUrl: 'https://maps.app.goo.gl/b47QCUtrvQqym7588?g_st=ic',
   },
   {
     id: 'stage-08',
@@ -191,7 +191,7 @@ export const STAGES_DATA: Stage[] = [
     question: { prompt: 'Lade ein Beweisfoto hoch.', input: { kind: 'uploadOnly' } },
     upload: { required: true, acceptMime: ['image/png', 'image/jpeg'], maxSizeMB: 5 },
     assets: { itemImage: `/img/${toKey('Diamond')}.png` },
-    mapUrl: 'http://example.com/image/10',
+    mapUrl: 'https://maps.app.goo.gl/z1AwsRupNWb5YTk48?g_st=ic',
   },
   {
     id: 'stage-09',
@@ -208,7 +208,7 @@ export const STAGES_DATA: Stage[] = [
     question: { prompt: 'Lade ein Beweisfoto hoch.', input: { kind: 'uploadOnly' } },
     upload: { required: true, acceptMime: ['image/png', 'image/jpeg'], maxSizeMB: 5 },
     assets: { itemImage: `/img/${toKey('Apple')}.png` },
-    mapUrl: 'http://example.com/image/11',
+    mapUrl: 'https://maps.app.goo.gl/4NVh7w2uqooCt9aS6?g_st=ic',
   },
   {
     id: 'stage-10',
@@ -240,7 +240,7 @@ export const STAGES_DATA: Stage[] = [
     },
     upload: { required: false, acceptMime: ['image/png', 'image/jpeg'], maxSizeMB: 5 },
     assets: { itemImage: `/img/${toKey('Pink Concrete')}.png` },
-    mapUrl: 'http://example.com/image/12',
+    mapUrl: 'https://maps.app.goo.gl/9S7yM2NVLnhpDMfB8?g_st=ic',
   },
   {
     id: 'stage-11',
@@ -265,7 +265,7 @@ export const STAGES_DATA: Stage[] = [
     },
     upload: { required: false, acceptMime: ['image/png', 'image/jpeg'], maxSizeMB: 5 },
     assets: { itemImage: `/img/${toKey('Copper Ingot')}.png` },
-    mapUrl: 'http://example.com/image/13',
+    mapUrl: 'https://maps.app.goo.gl/E1zomT8PeF1zF9aX9?g_st=ic',
   },
   {
     id: 'stage-12',
@@ -294,7 +294,7 @@ export const STAGES_DATA: Stage[] = [
     },
     upload: { required: false, acceptMime: ['image/png', 'image/jpeg'], maxSizeMB: 5 },
     assets: { itemImage: `/img/${toKey('Rail')}.png` },
-    mapUrl: 'http://example.com/image/14',
+    mapUrl: 'https://maps.app.goo.gl/vnkFpj8fEcC5ntbm6?g_st=ic',
   },
   {
     id: 'stage-13',
@@ -311,7 +311,7 @@ export const STAGES_DATA: Stage[] = [
     question: { prompt: 'Lade ein Beweisfoto hoch.', input: { kind: 'uploadOnly' } },
     upload: { required: true, acceptMime: ['image/png', 'image/jpeg'], maxSizeMB: 5 },
     assets: { itemImage: `/img/${toKey('Lore')}.png` },
-    mapUrl: 'http://example.com/image/15',
+    mapUrl: 'https://maps.app.goo.gl/U2Dm6MSo1CTA97Hh6?g_st=ic',
   },
   {
     id: 'stage-14',
@@ -336,7 +336,7 @@ export const STAGES_DATA: Stage[] = [
     },
     upload: { required: false, acceptMime: ['image/png', 'image/jpeg'], maxSizeMB: 5 },
     assets: { itemImage: `/img/${toKey('Diorite Wall')}.png` },
-    mapUrl: 'http://example.com/image/16',
+    mapUrl: 'https://maps.app.goo.gl/AY3VJvapSh1UDbcR9?g_st=ic',
   },
   {
     id: 'stage-15',
@@ -357,7 +357,7 @@ export const STAGES_DATA: Stage[] = [
     },
     upload: { required: false, acceptMime: ['image/png', 'image/jpeg'], maxSizeMB: 5 },
     assets: { itemImage: `/img/${toKey('Vines')}.png` },
-    mapUrl: 'http://example.com/image/17',
+    mapUrl: 'https://maps.app.goo.gl/AkZ6BoEFD5f1y8oe9?g_st=ic',
   },
   {
     id: 'stage-16',
@@ -382,7 +382,7 @@ export const STAGES_DATA: Stage[] = [
     },
     upload: { required: false, acceptMime: ['image/png', 'image/jpeg'], maxSizeMB: 5 },
     assets: { itemImage: `/img/${toKey('Banner')}.png` },
-    mapUrl: 'http://example.com/image/18',
+    mapUrl: 'https://maps.app.goo.gl/nGKXeMbmY6s9UPkTA?g_st=ic',
   },
   {
     id: 'stage-17',
@@ -403,7 +403,7 @@ export const STAGES_DATA: Stage[] = [
     question: { prompt: 'Lade ein Beweisfoto hoch.', input: { kind: 'uploadOnly' } },
     upload: { required: true, acceptMime: ['image/png', 'image/jpeg'], maxSizeMB: 5 },
     assets: { itemImage: `/img/${toKey('Music Disc')}.png` },
-    mapUrl: 'http://example.com/image/19',
+    mapUrl: 'https://maps.app.goo.gl/xWVvourSdB1rwgYn6?g_st=ic',
   },
   {
     id: 'stage-18',
@@ -428,7 +428,7 @@ export const STAGES_DATA: Stage[] = [
     },
     upload: { required: false, acceptMime: ['image/png', 'image/jpeg'], maxSizeMB: 5 },
     assets: { itemImage: `/img/${toKey('Purpur Block')}.png` },
-    mapUrl: 'http://example.com/image/20',
+    mapUrl: 'https://maps.app.goo.gl/Sk4YCjKud8hYbRqK9?g_st=ic',
   },
   {
     id: 'stage-19',
@@ -449,7 +449,7 @@ export const STAGES_DATA: Stage[] = [
     },
     upload: { required: false, acceptMime: ['image/png', 'image/jpeg'], maxSizeMB: 5 },
     assets: { itemImage: `/img/${toKey('Peony')}.png` },
-    mapUrl: 'http://example.com/image/21',
+    mapUrl: 'https://maps.app.goo.gl/vZ9WVNyHLuZtHv6w5?g_st=ic',
   },
   {
     id: 'stage-20',
@@ -474,7 +474,7 @@ export const STAGES_DATA: Stage[] = [
     },
     upload: { required: false, acceptMime: ['image/png', 'image/jpeg'], maxSizeMB: 5 },
     assets: { itemImage: `/img/${toKey('Resin Brick Slab')}.png` },
-    mapUrl: 'http://example.com/image/22',
+    mapUrl: 'https://maps.app.goo.gl/aaZuc9ifau3U1C4BA?g_st=ic',
   },
   {
     id: 'stage-21',
@@ -491,7 +491,7 @@ export const STAGES_DATA: Stage[] = [
     question: { prompt: 'Lade ein Beweisfoto hoch.', input: { kind: 'uploadOnly' } },
     upload: { required: true, acceptMime: ['image/png', 'image/jpeg'], maxSizeMB: 5 },
     assets: { itemImage: `/img/${toKey('Bone Meal')}.png` },
-    mapUrl: 'http://example.com/image/3',
+    mapUrl: 'https://maps.app.goo.gl/2k425LtPBusRWdPC7?g_st=ic',
   },
   {
     id: 'stage-22',
@@ -516,7 +516,7 @@ export const STAGES_DATA: Stage[] = [
     },
     upload: { required: false, acceptMime: ['image/png', 'image/jpeg'], maxSizeMB: 5 },
     assets: { itemImage: `/img/${toKey('Quartz Pillar')}.png` },
-    mapUrl: 'http://example.com/image/4',
+    mapUrl: 'https://maps.app.goo.gl/P4k6ejA5s4Gav5yD9?g_st=ic',
   },
   {
     id: 'stage-23',
@@ -541,7 +541,7 @@ export const STAGES_DATA: Stage[] = [
     },
     upload: { required: false, acceptMime: ['image/png', 'image/jpeg'], maxSizeMB: 5 },
     assets: { itemImage: `/img/${toKey('Acacia Door')}.png` },
-    mapUrl: 'http://example.com/image/5',
+    mapUrl: 'https://maps.app.goo.gl/RE5Fgk3GAhBwLrTE8?g_st=ic',
   },
   {
     id: 'stage-24',
@@ -566,7 +566,7 @@ export const STAGES_DATA: Stage[] = [
     },
     upload: { required: false, acceptMime: ['image/png', 'image/jpeg'], maxSizeMB: 5 },
     assets: { itemImage: `/img/${toKey('Light Blue Glazed Terracotta')}.png` },
-    mapUrl: 'http://example.com/image/23',
+    mapUrl: 'https://maps.app.goo.gl/zJK37Zv2sSfLaWGe8?g_st=ic',
   },
 ];
 

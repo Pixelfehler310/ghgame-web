@@ -64,6 +64,7 @@ import { MessageService } from 'primeng/api';
                   <ghg-speech-bubble
                     [avatarUrl]="npcAvatarUrl"
                     [messages]="dialogMessages"
+                    [mapUrl]="currentStage?.mapUrl || ''"
                     [question]="currentStage?.question?.prompt"
                   ></ghg-speech-bubble>
                 </div>
